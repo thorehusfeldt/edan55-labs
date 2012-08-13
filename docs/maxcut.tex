@@ -1,17 +1,19 @@
 \documentclass{tufte-handout}
 \usepackage{amsmath,amsthm}
 
-\usepackage{gitinfo}
+\input{vc.tex}
 
 \usepackage{pgfplots}
 \pgfplotsset{width=\textwidth,compat=1.5.1}
 
 \newtheorem{claim}{Claim}[section]
-\title{Approximation Algorithm for Maximum Cut}
-\date{\gitHash}
+\title{\sf Approximation Algorithm for Maximum Cut}
+%\date{\GITAuthorDate}
+%\author{Thore Husfeldt}
+
 \begin{document}
 \maketitle
-
+\footnotetext{rev. \GITAbrHash}
 
 \section{Maximum Cut}
 Consider an undirected graph $G=(V,E)$ with positive edge weights

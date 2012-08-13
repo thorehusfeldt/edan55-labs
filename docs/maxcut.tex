@@ -24,10 +24,8 @@ vertices with largest total weigth of the edges ``crossing'' the
 partition, i.e., maximising the value of \[c(A)= \sum_{(u,v)\in E,
   u\in A, v\notin A} w(u,v)\,\] over all $A\subseteq V$.
 
-Maxcut is NP-hard, which is usually shown by an easy reduction from
-Not-All-Equal 3-Satisfiability.
-Thus, we have little hope of writing an algorithm that solves
-arbitrary Maxcut instances optimally.
+Maxcut is NP-hard, so we have little hope of writing an algorithm that
+solves arbitrary Maxcut instances optimally.
 
 \subsection{ Algorithm R}
 
@@ -320,8 +318,8 @@ concentrated around its expectation.
 
 \bigskip
 
-The reduction from NAE-Sat (to establish that Maxcut is NP-hard) can
-be found in a number of places, such as XXX.
+To establish that Maxcut is NP-hard one reduces from NAE-Sat, which
+can be found in a number of places, such as XXX.
 Recall that the related problem \emph{Minimum Cut} is easy because of
 the max flow--min cut theorem.
 A moment's thought should convince you that as soon as negative

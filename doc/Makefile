@@ -1,4 +1,4 @@
-latexfile = marking
+latexfile = collatz81
 
 all: $(latexfile).pdf
 

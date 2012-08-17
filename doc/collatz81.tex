@@ -65,6 +65,30 @@ Sinclair ZX81 with 1~kB of memory.
 \includegraphics[width=2in]{800px-Sinclair-ZX81.png}
 \end{marginfigure}
 
+Algorithm D approximates the number of distinct elements in a stream
+of values $x_1,x_2,\ldots$.
+We use a pairwise independent hash function $h$ mapping the stream
+elements to a range $\{0,\ldots, R-1\}$, where $R$ an integer much
+larger than the number of distinct elements we can imagine.
+(Typically one will use $R$ to be the number of positive integers
+available in a machine word.)
+After seeing $i$ elements, the algorithm stores a set $V\subseteq \{
+\,(h(x_j),x_j) \mid j=1,\dots,i\,\}$, corresponding to the $t$ distinct
+elements having the smallest hash values.
+(Ties can be broken arbitrarily.)
+When we see the $i$th element $x_i$, we compute its hash value
+$h(x_i)$.
+If this is smaller than some hash value in $V$, and
+$(h(x_i),x_i)\not\in V$, we add $(h(x_i),x_i)$ to $V$ and throw away
+an element having the largest hash value.
+To estimate the number of distinct elements seen we look at the
+largest hash value $v$ in $H$, and compute $tR/v$.
+The relative error of this estimate can be shown to be a factor $1\pm
+O(t^{-0.5})$ with probability $3/4$.
+To increase the confidence to arbitrarily close to 1, run the
+algorithm several times (in ``parallel'') and take the median of the
+estimates.
+
 
 
 

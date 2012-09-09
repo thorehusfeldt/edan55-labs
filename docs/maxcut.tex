@@ -278,10 +278,11 @@ Let $k=\lceil\log (n+1)\rceil$ and flip $k$ coins $b_1,\ldots, b_k$.
 There are $2^k -1 \geq n$ different ways of choosing a nonempty subset
 $S\subseteq [k]$ of the coins.
 Each of these ways defines a random bit $r_S =\bigoplus_{i\in S} b_i$.
+(Here, $\xor$ denotes exclusive or.)
 This gives a total of $n$ random bits.
 These random bits are not as high-quality as the original $k$ bits,
 but they retain the crucial property of \emph{pairwise independence}:
-If $S\neq T$ then 
+If $S\neq T$ then
 \[ \Pr(r_S\neq r_T) = [\ldots],.\]
 
 Extend Algorithm~R using this idea; call the resulting

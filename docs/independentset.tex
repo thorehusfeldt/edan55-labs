@@ -16,90 +16,129 @@
 
 \section{Independent Set}
 Consider an undirected unweighted graph $G=(V,E)$ and set $n=|V|$.
-The Maximum Independent Set problem (MIS) is to find a subset $S$ of the
-vertices of largest size such that no pair of different vertices in $S$ are connected by an edge in $G$. The size of the largest independent set in $G$ is denoted by $\alpha(G)$.
+The Maximum Independent Set problem (MIS) is to find a subset $S$ of
+the vertices of largest size such that no pair of different vertices
+in $S$ are connected by an edge in $G$.
+The size of the largest independent set in $G$ is denoted by
+$\alpha(G)$.
 
-MIS is NP-hard, but we will nevertheless implement algorithms that compute $\alpha(G)$ for small instance graphs $G$ and argue both empirically and theoretically about their running time.
+MIS is NP-hard, but we will nevertheless implement algorithms that
+compute $\alpha(G)$ for small instance graphs $G$ and argue both
+empirically and theoretically about their running time.
 
-\paragraph{Notation}
-For a subset $X\subseteq V$, we will by $G[X]$ denote the graph \emph{induced} by $X$, the graph that remains if we keep only the vertices in $X$ and the edges among them. For a vertex $v$, we denote by $N[v]$ its \emph{closed neighborhood}, i.e. $v$ and all its neighbors. We will slighlty abuse set difference and union notation by using $-$ and $+$ instead. $X+Y-Z$ for three sets $X,Y,Z$ are those elements that are in either $X$ or $Y$ but not in $Z$. 
+\paragraph{Notation.}
+For a subset $X\subseteq V$, we will by $G[X]$ denote the graph
+\emph{induced} by $X$, the graph that remains if we keep only the
+vertices in $X$ and the edges among them.
+For a vertex $v$, we denote by $N[v]$ its \emph{closed neighborhood},
+i.e. $v$ and all its neighbors.
+We will slightly abuse set difference and union notation by using $-$
+and $+$ instead.
+$X+Y-Z$ for three sets $X,Y,Z$ are those elements that are in either
+$X$ or $Y$ but not in $Z$.
 
-\subsection{ Algorithm R0}
 
-Consider the following simple recursive algorithm working on an input graph $G=(V,E)$. (call it
-Algorithm~R0): 
+\subsection{Algorithm $R_0$}
+
+Consider the following simple recursive algorithm working on an input
+graph $G=(V,E)$.
+(Call it Algorithm~$R_0$):
 \begin{enumerate}
 \item
-If the input graph is empty, return 0;
+If the input graph is empty, return $0$;
 \item
-If the input graph $G$ has a vertex $v$ without any neighbors, return 1+R0($G[V-v]$)
+If the input graph $G$ has a vertex $v$ without any neighbors, return $1+R_0(G[V-v])$
 \item
-Otherwise find a vertex $u$ of maximum degree (if there are several any will do) and return max(1+R0($G[V-N[u]]$), R0($G[V-u]$)).
+Otherwise find a vertex $u$ of maximum degree (if there are several
+any will do) and return $\max(1+R_0(G[V-N[u]]), 
+R_0(G[V-u]))$.
 \end{enumerate}
 
-To see why algorithm R0 correctly computes $\alpha(G)$, note that if there is an isolated vertex $v$, a maximum size independent set will always contain it (Row 2). On the other hand, if there are no isolated vertices, we can pick a vertex $u$ of maximum degree and branch on the two cases that $u$ is in the maximum independent set (in which case we discard all vertices adjacent to $u$ from $G$), or that $u$ is not in the maximum independent set (Row 3).
+To see why algorithm $R_0$ correctly computes $\alpha(G)$, note that
+if there is an isolated vertex $v$, a maximum size independent set
+will always contain it (Row 2).
+On the other hand, if there are no isolated vertices, we can pick a
+vertex $u$ of maximum degree and branch on the two cases that $u$ is
+in the maximum independent set (in which case we discard all vertices
+adjacent to $u$ from $G$), or that $u$ is not in the maximum
+independent set (Row 3).
 
-\subsection{ Inputs}
+\subsection{Inputs}
 
-The data directory contains eleven random input instances of increasing size. 
+The data directory contains eleven random input instances of
+increasing size. 
+All input files are text files on the following format describing the
+undirected graph $G=(V,E)$: First comes a positive integer $n$ giving
+the number of vertices in the graph.
+Next follow $n$ rows each containing $n$ $0/1$-entries describing the
+so-called \emph{adjacency matrix} of the graph.
+The $j$th integer at the $i$th row is a $1$ if and only if $ij\in E$.
 
-\begin{description}
-\item[ g30.in:] A random instance with $|V|=30$. The largest independent set is $14$.
-\item[ g40.in:] A random instance with $|V|=40$. The largest independent set is $16$.
-\item[ g50.in:] A random instance with $|V|=50$. The largest independent set is $19$.
-\[\vdots\]
-\item[ g130.in:]  A random instance with $|V|=130$. The largest independent set is $?$.
+\begin{marginfigure}
+\begin{tabular}{lrr}
+file & $|V|$ & $\alpha(G)$\\
+ g30.in & 30 & 14\\
+ g40.in & 40 & 16\\
+g50.in & 50&  19\\
+$\ldots$\\
+ g130.in& 130 &  ? 
+\end{tabular}
+\end{marginfigure}
 
-\end{description}
 
-All input files are text files on the following format describing the undirected graph $G=(V,E)$:
-First comes a positive integer $n$ giving the number of vertices in the graph. Next follow $n$ rows
-with $n$ $0/1$-entries describing the so-called \emph{adjacency matrix} of the graph. The $j$:th integer at the $i$:th row is a $1$ if and only if $ij\in E$.
 
-\subsection{ Deliverables}
+\subsection{Deliverables}
 
 \begin{enumerate}
-\item Implement algorithm R0 and run it on the instances provided in
+\item Implement algorithm $R_0$ and run it on the instances provided in
   data/g30.txt, data/g40.txt, ..., data/g60.txt.
   
-  Count the number of recursive calls of R0 for each instance and plot the
+  Count the number of recursive calls of $R_0$ for each instance and plot the
   logarithm of that number vs the instance vertex size. 
   
   What is the time complexity dependence on $n$?
   
   Use whatever programming language and libraries you want, but make
-  sure that your code is not unnecessarily long. Pay attention to the problem
-  of efficiently representing a graph through the recursion so that it is easy to remove (and add, see below) vertices
-   to it. In particular, making a new copy of the graph in each recursive call may be a bad idea, you've better temporarily modify the one at hand.
+  sure that your code is not unnecessarily long.
+  Pay attention to the problem of efficiently representing a graph
+  through the recursion so that it is easy to remove (and add, see
+  below) vertices to it.
+  In particular, making a new copy of the graph in each recursive call
+  may be a bad idea, you've better temporarily modify the one at hand.
    
-    Attach a printout to the report or have it checked by your lab
+  Attach a printout to the report or have it checked by your lab
   assistant.
- \item  Add the following line to algorithm R0 after its first line checking for emptiness, and call the resulting algorithm R1 (replacing the recursive calls to R0 by R1):
+\item Add the following line to algorithm $R_0$ after its first line
+  checking for emptiness, and call the resulting algorithm $R_1$
+  (replacing the recursive calls to $R_0$ by $R_1$):
  
- If G has a vertex v of degree $1$ return 1+R1(G[V-N[v]]).
+ If $G$ has a vertex $v$ of degree $1$ return $1+R_1(G[V-N[v]])$.
  
- Argue the correctness of algorithm R1, i.e. motivate why it always computes $\alpha(G)$.
+ Argue the correctness of algorithm $R_1$, i.e., motivate why it always computes $\alpha(G)$.
  
- Implement algorithm R1 and run it on the instances
-  data/g30.in, data/g40.in, ..., data/g100.in.
+ Implement algorithm $R_1$ and run it on the instances data/g30.in,
+ data/g40.in, $\ldots$, data/g100.in.
 
   Count the number of recursive calls of R1 for each instance and plot the
   logarithm of that number vs the instance vertex size. 
   
   What is the time complexity dependence on $n$?
 
- \item Add the following line to algorithm R1 after its first line checking for emptiness, and call the resulting algorithm R2 (replacing the recursive calls to R1 by R2):
+\item Add the following line to algorithm $R_1$ after its first line
+  checking for emptiness, and call the resulting algorithm $R_2$
+  (replacing the recursive calls to $R_1$ by $R_2$):
  
- If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if $uw\in E$ return 1+R2($G[V-N[v]]$),
- else add a new vertex $z$ to the graph with edges to every neighbor of $u$ and $w$, and
- return 1+R2($G[V-N[v]+z$).
+  If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
+  $uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
+  the graph with edges to every neighbor of $u$ and $w$, and return
+  $1+R_2(G[V-N[v]+z)$.
  
- Argue the correctness of algorithm R2, i.e. motivate why it always computes $\alpha(G)$.
+ Argue the correctness of algorithm $R_2$, i.e. motivate why it always computes $\alpha(G)$.
  
- Implement algorithm R2 and run it on the instances
-  data/g30.in, data/g40.in, ..., data/g120.in.
+ Implement algorithm $R_2$ and run it on the instances
+  data/g30.in, data/g40.in, $\ldots$, data/g120.in.
 
-  Count the number of recursive calls of R2 for each instance and plot the
+  Count the number of recursive calls of $R_2$ for each instance and plot the
   logarithm of that number vs the instance vertex size. 
   
   What is the time complexity dependence on $n$?
@@ -128,10 +167,13 @@ Algorithm R2 correctly computes $\alpha(G)$ because $[\ldots]$.
 \subsection{Empirical Running time}
 
 \paragraph{Experiments.}
-  \sidenote{Plot the logarithm of the number of recursive calls for the three algorithms R0, R1, and R2, in a  combined image.	
-  Use whatever software you like to produce
-  the image; the placeholder image on the left is constructed in the
-  \LaTeX\ source, and should give you a feel of what the result could look like (with completely different values on the y-axis.)}
+\sidenote{Plot the logarithm of the number of recursive calls for the
+  three algorithms $R_0$, $R_1$, and $R_2$, in a combined image.
+  
+  Use whatever software you like to produce the image; the placeholder
+  image on the left is constructed in the \LaTeX\ source, and should
+  give you a feel of what the result could look like (with completely
+  different values on the y-axis.)}
 
 \medskip
 
@@ -187,17 +229,20 @@ Algorithm R2 correctly computes $\alpha(G)$ because $[\ldots]$.
 \end{axis}
 \end{tikzpicture}
 
-The running times of algorithm~R0,R1, and R2 appears to be $[\ldots],[\ldots],$ and $[\ldots]$, respectively.\sidenote{Replace the
-  $[\ldots]$ by a function of $n$ on the form $O(c^n)$. Use your measurements on the run time to estimate $c$ in the three cases.}.
+The running times of algorithm~$R_0$, $R_1$, and $R_2$ appear to be
+$[\ldots],[\ldots],$ and $[\ldots]$, respectively.\sidenote{Replace
+  the $[\ldots]$ by a function of $n$ on the form $O(c^n)$.
+  Use your measurements on the run time to estimate $c$ in the three
+  cases.}.
 
 \subsection{Theoretical Upper Bound}
 
 Denote be $T_i(n)$ the worst runtime of algorithm Ri on \emph{any} graph on $n$ vertices.
 Note that $T_i(n)$ is a non-decreasing function of $n$.
 For R0 we can conclude that
-\[
-T_0(n)\leq max(T_0(n-1), T_0(n-1)+T_0(n-1-d_{\mbox{max}})) \leq T_0(n-1)+T_0(n-2)
-\]
+\begin{align*}
+T_0(n) &\leq\max(T_0(n-1), T_0(n-1)+T_0(n-1-d_{\mbox{max}})) \\ &\leq T_0(n-1)+T_0(n-2)
+\end{align*}
 with $d_{\mbox{max}}$ the degree of the vertex we branch on. The hard part is the one when there are no isolated vertices, in which case the vertex $u$ we are branching on has at least one neighbor. 
 
 For R1 we have that\sidenote{Derive similar recursive bounds on $T_1(n)$ and $T_2(n)$.}
@@ -210,13 +255,20 @@ For R2 we have that
  T_2(n)=[\ldots]
  \]
 \paragraph{Worst Case Upper Bound}
-The running times of algorithm~R0,R1, and R2 are in $[\ldots],[\ldots],$ and $[\ldots]$, respectively.\sidenote{Replace the
-  $[\ldots]$ by a function of $n$ on the form $O(c^n)$. Use the recursive bounds you've derived above. \emph{Hint: to solve a recursion $T(n)\leq \sum_{i=1}^k a_iT(n-i)$, you can set $T(n)\geq c^n$ where $c$ is the largest real root to the polynomial $x^k-\sum_{i=1}^k a_ix^{k-i}$}.}.
-\newpage
+The running times of algorithm~$R_0$, $R_1$, and $R_2$ are in
+$[\ldots],[\ldots],$ and $[\ldots]$, respectively.\sidenote{Replace
+  the $[\ldots]$ by a function of $n$ on the form $O(c^n)$.
+  Use the recursive bounds you've derived above.
+  \emph{Hint: A recurrence of the form $T(n)\leq \sum_{i=1}^k
+    a_iT(n-i)$ is called a linear homogeneous recurrence relation with
+    constant coefficients.
+    To solve it, you can set $T(n)\geq c^n$ where $c$ is the largest
+    real root to the characteristic polynomial $x^k-\sum_{i=1}^k
+    a_ix^{k-i}$}.}. \newpage
 
 \section{Optional}
-Add more ``algorithmic intelligence'' to the algorithm R2 in order to tackle the instance in data/g130.in.
-Try to make it run in less than 10.000.000 recursive calls. 
+Add more ``algorithmic intelligence'' to the algorithm $R_2$ in order to tackle the instance in data/g130.in.
+Try to make it run in less than 10,000,000 recursive calls. 
 
 Suggestions for possible speed-ups:
 \begin{itemize}

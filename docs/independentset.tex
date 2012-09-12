@@ -48,10 +48,11 @@ graph $G=(V,E)$.
 If the input graph is empty, return $0$;
 \item
 If the input graph $G$ has a vertex $v$ without any neighbors, return $1+R_0(G[V-v])$
-\item
-Otherwise find a vertex $u$ of maximum degree (if there are several
-any will do) and return $\max(1+R_0(G[V-N[u]]), 
-R_0(G[V-u]))$.
+\item Otherwise find a vertex $u$ of maximum degree (if there are
+  several any will do) and return $\max(1+R_0(G[V-N[u]]),
+  R_0(G[V-u]))$\sidenote{Observe once again that $N[u]$ is the
+    \emph{closed neighborhood} of $u$, i.e., $u$ itself should also be
+    removed.}.
 \end{enumerate}
 
 To see why algorithm $R_0$ correctly computes $\alpha(G)$, note that
@@ -130,8 +131,11 @@ $\ldots$\\
  
   If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
   $uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
-  the graph with edges to every neighbor of $u$ and $w$, and return
-  $1+R_2(G[V-N[v]+z)$.
+  the graph with edges to every neighbor of $u$ and $w$, except $v$,
+  and return $1+R_2(G[V-N[v]+z)$.
+
+  If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
+  proceed just as in algorithm $R_1$.
  
  Argue the correctness of algorithm $R_2$, i.e. motivate why it always computes $\alpha(G)$.
  

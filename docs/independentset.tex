@@ -48,10 +48,11 @@ graph $G=(V,E)$.
 If the input graph is empty, return $0$;
 \item
 If the input graph $G$ has a vertex $v$ without any neighbors, return $1+R_0(G[V-v])$
-\item
-Otherwise find a vertex $u$ of maximum degree (if there are several
-any will do) and return $\max(1+R_0(G[V-N[u]]), 
-R_0(G[V-u]))$.
+\item Otherwise find a vertex $u$ of maximum degree (if there are
+  several any will do) and return $\max(1+R_0(G[V-N[u]]),
+  R_0(G[V-u]))$\sidenote{Observe once again that $N[u]$ is the
+    \emph{closed neighborhood} of $u$, i.e., $u$ itself should also be
+    removed.}.
 \end{enumerate}
 
 To see why algorithm $R_0$ correctly computes $\alpha(G)$, note that
@@ -77,11 +78,17 @@ The $j$th integer at the $i$th row is a $1$ if and only if $ij\in E$.
 \begin{marginfigure}
 \begin{tabular}{lrr}
 file & $|V|$ & $\alpha(G)$\\
- g30.in & 30 & 14\\
- g40.in & 40 & 16\\
-g50.in & 50&  19\\
-$\ldots$\\
- g130.in& 130 &  ? 
+ \texttt{g30.in} & 30 & 14\\
+ \texttt{g40.in} & 40 & 16\\
+ \texttt{g50.in} & 50 & 19\\
+ \texttt{g60.in} & 60 & 20\\
+ \texttt{g70.in} & 70 & 22\\
+ \texttt{g80.in} & 80 & 24\\
+ \texttt{g90.in} & 89 & 26\\
+ \texttt{g100.in} & 100 & 27\\
+ \texttt{g110.in} & 110 & 29\\
+ \texttt{g120.in} & 120 & 30\\
+ \texttt{g130.in} & 130 &  ? 
 \end{tabular}
 \end{marginfigure}
 
@@ -100,11 +107,13 @@ $\ldots$\\
   
   Use whatever programming language and libraries you want, but make
   sure that your code is not unnecessarily long.
-  Pay attention to the problem of efficiently representing a graph
+
+  First implement the algorithm by making a new copy of the graph at
+  each recursive call, just to make it as easy as possible to verify
+  that the algorithm works as intended. Once you get this to work, you
+  can pay attention to the problem of efficiently representing a graph
   through the recursion so that it is easy to remove (and add, see
-  below) vertices to it.
-  In particular, making a new copy of the graph in each recursive call
-  may be a bad idea, you've better temporarily modify the one at hand.
+  below) vertices to it by temporarily modifying the graph at hand.
    
   Attach a printout to the report or have it checked by your lab
   assistant.
@@ -130,8 +139,11 @@ $\ldots$\\
  
   If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
   $uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
-  the graph with edges to every neighbor of $u$ and $w$, and return
-  $1+R_2(G[V-N[v]+z)$.
+  the graph with edges to every neighbor of $u$ and $w$, except $v$,
+  and return $1+R_2(G[V-N[v]+z)$.
+
+  If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
+  proceed just as in algorithm $R_1$.
  
  Argue the correctness of algorithm $R_2$, i.e. motivate why it always computes $\alpha(G)$.
  

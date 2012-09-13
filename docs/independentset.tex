@@ -44,17 +44,181 @@ Consider the following simple recursive algorithm working on an input
 graph $G=(V,E)$.
 (Call it Algorithm~$R_0$):
 \begin{enumerate}
-\item
-If the input graph is empty, return $0$;
-\item
-If the input graph $G$ has a vertex $v$ without any neighbors, return $1+R_0(G[V-v])$
+\item If the input graph is empty, return $0$.
+\item If the input graph $G$ has a vertex $v$ without any neighbors,
+  return $1+R_0(G[V-v]).$
+
+  \begin{fullwidth}
+    \begin{tikzpicture}
+      [auto,node distance=15mm,thick,
+      main node/.style={circle,draw,minimum size=7mm,fill=black!10}]
+
+      \node[main node] (1) {};
+      \node[main node] (2) [above left of=1] {};
+      \node[main node] (3) [above right of=1] {};
+      \node[main node] (4) [below left of=1] {};
+      \node[main node] (5) [below of=1] {};
+      \node[main node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[main node] (9) [above right of=2] {$v$};
+
+      \path[every node/.style={}]
+      (1) edge node {} (2)
+      edge node {} (3)
+      edge node {} (4)
+      edge node {} (5)
+      edge node {} (6)
+      (4) edge node {} (5)
+      (6) edge node {} (7)
+      (7) edge node {} (8)
+      edge node {} (8);
+
+      \node [below=5mm, align=flush center, text width=5cm] at (5)
+      {Graph with isolated node ($v$).};
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+      [auto,node distance=15mm,thick,
+      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
+      removed node/.style={thin,circle,draw,minimum size=7mm}]
+
+      \node[main node] (1) {};
+      \node[main node] (2) [above left of=1] {};
+      \node[main node] (3) [above right of=1] {};
+      \node[main node] (4) [below left of=1] {};
+      \node[main node] (5) [below of=1] {};
+      \node[main node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[removed node] (9) [above right of=2] {$v$};
+
+      \path[every node/.style={}]
+      (1) edge node {} (2)
+      edge node {} (3)
+      edge node {} (4)
+      edge node {} (5)
+      edge node {} (6)
+      (4) edge node {} (5)
+      (6) edge node {} (7)
+      (7) edge node {} (8)
+      edge node {} (8);
+
+      \node [below=5mm, align=flush center, text width=5cm] at (5)
+      {We can safely say $v$ is in the MIS, and continue without it.};
+    \end{tikzpicture}
+  \end{fullwidth}
+
 \item Otherwise find a vertex $u$ of maximum degree (if there are
   several any will do) and return $\max(1+R_0(G[V-N[u]]),
   R_0(G[V-u]))$\sidenote{Observe once again that $N[u]$ is the
     \emph{closed neighborhood} of $u$, i.e., $u$ itself should also be
     removed.}.
-\end{enumerate}
 
+  \begin{center}
+    \begin{tikzpicture}
+      [auto,node distance=15mm,thick,
+      main node/.style={circle,draw,minimum size=7mm,fill=black!10}]
+
+      \node[main node] (1) {$u$};
+      \node[main node] (2) [above left of=1] {};
+      \node[main node] (3) [above right of=1] {};
+      \node[main node] (4) [below left of=1] {};
+      \node[main node] (5) [below of=1] {};
+      \node[main node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[main node] (9) [above right of=2] {};
+
+      \path[every node/.style={}]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6)
+      (4) edge node {} (5)
+      (6) edge node {} (7)
+      (7) edge node {} (8)
+      (3) edge node {} (9)
+          edge node {} (8)
+      (2) edge node {} (9);
+
+        \node [below=5mm, align=flush center, text width=7cm] at (5) {
+          Vertex $u$ has highest degree.
+        };
+    \end{tikzpicture}
+  \end{center}
+  \begin{fullwidth}
+    \begin{tikzpicture}
+      [auto,node distance=15mm,thick,
+      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
+      removed node/.style={thin,circle,draw,minimum size=7mm}]
+
+      \node[removed node] (1) {$u$};
+      \node[main node] (2) [above left of=1] {};
+      \node[main node] (3) [above right of=1] {};
+      \node[main node] (4) [below left of=1] {};
+      \node[main node] (5) [below of=1] {};
+      \node[main node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[main node] (9) [above right of=2] {};
+
+      \path[thin,dashed, every node/.style={}]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6);
+      \path[every node/.style={}]
+      (4) edge node {} (5)
+      (6) edge node {} (7)
+      (7) edge node {} (8)
+      (3) edge node {} (9)
+          edge node {} (8)
+      (2) edge node {} (9);
+
+        \node [below=5mm, align=flush center, text width=7cm] at (5) {
+          Assume $u$ not in the MIS -- just remove $u$.
+        };
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+      [auto,node distance=15mm,thick,
+      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
+      removed node/.style={thin,circle,draw,minimum size=7mm}]
+
+      \node[removed node] (1) {$u$};
+      \node[removed node] (2) [above left of=1] {};
+      \node[removed node] (3) [above right of=1] {};
+      \node[removed node] (4) [below left of=1] {};
+      \node[removed node] (5) [below of=1] {};
+      \node[removed node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[main node] (9) [above right of=2] {};
+
+      \path[thin,dashed, every node/.style={}]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6)
+      (4) edge node {} (5)
+      (3) edge node {} (9)
+          edge node {} (8)
+      (6) edge node {} (7)
+      (2) edge node {} (9);
+      \path[every node/.style={}]
+      (7) edge node {} (8);
+
+        \node [below=5mm, align=flush center, text width=5cm] at (5) {
+          Assume $u$ is in the MIS -- remove $u$ and its neighbors,
+          since the neighbors can no longer be in the MIS).
+        };
+    \end{tikzpicture}
+  \end{fullwidth}
+\end{enumerate}
 To see why algorithm $R_0$ correctly computes $\alpha(G)$, note that
 if there is an isolated vertex $v$, a maximum size independent set
 will always contain it (Row 2).
@@ -117,13 +281,17 @@ file & $|V|$ & $\alpha(G)$\\
    
   Attach a printout to the report or have it checked by your lab
   assistant.
+
 \item Add the following line to algorithm $R_0$ after its first line
-  checking for emptiness, and call the resulting algorithm $R_1$
-  (replacing the recursive calls to $R_0$ by $R_1$):
+ checking for emptiness, and call the resulting algorithm $R_1$
+ (replacing the recursive calls to $R_0$ by $R_1$):
  
  If $G$ has a vertex $v$ of degree $1$ return $1+R_1(G[V-N[v]])$.
  
- Argue the correctness of algorithm $R_1$, i.e., motivate why it always computes $\alpha(G)$.
+ Make illustrations such as those above to illustrate the new
+ algorithm, and use the images both when you implement the algorithm,
+ and when you argue the correctness of algorithm $R_1$, i.e., motivate
+ why it always computes $\alpha(G)$.
  
  Implement algorithm $R_1$ and run it on the instances data/g30.in,
  data/g40.in, $\ldots$, data/g100.in.
@@ -145,7 +313,10 @@ file & $|V|$ & $\alpha(G)$\\
   If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
   proceed just as in algorithm $R_1$.
  
- Argue the correctness of algorithm $R_2$, i.e. motivate why it always computes $\alpha(G)$.
+  Once again, make illustrations such as those above to illustrate the
+  new algorithm, and use the images both when you implement the
+  algorithm, and when you argue the correctness of algorithm $R_2$,
+  i.e. motivate why it always computes $\alpha(G)$.
  
  Implement algorithm $R_2$ and run it on the instances
   data/g30.in, data/g40.in, $\ldots$, data/g120.in.

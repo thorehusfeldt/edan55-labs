@@ -11,6 +11,8 @@
 \date{\GITAuthorDate, rev. \GITAbrHash}
 \author{}
 
+\newcommand{\mis}{\textsc{MIS}}
+
 \begin{document}
 \maketitle
 
@@ -65,14 +67,14 @@ graph $G=(V,E)$.
 
       \path[every node/.style={}]
       (1) edge node {} (2)
-      edge node {} (3)
-      edge node {} (4)
-      edge node {} (5)
-      edge node {} (6)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6)
       (4) edge node {} (5)
       (6) edge node {} (7)
       (7) edge node {} (8)
-      edge node {} (8);
+          edge node {} (8);
 
       \node [below=5mm, align=flush center, text width=5cm] at (5)
       {Graph with isolated node ($v$).};
@@ -95,14 +97,14 @@ graph $G=(V,E)$.
 
       \path[every node/.style={}]
       (1) edge node {} (2)
-      edge node {} (3)
-      edge node {} (4)
-      edge node {} (5)
-      edge node {} (6)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6)
       (4) edge node {} (5)
       (6) edge node {} (7)
       (7) edge node {} (8)
-      edge node {} (8);
+          edge node {} (8);
 
       \node [below=5mm, align=flush center, text width=5cm] at (5)
       {We can safely say $v$ is in the MIS, and continue without it.};
@@ -214,7 +216,7 @@ graph $G=(V,E)$.
 
         \node [below=5mm, align=flush center, text width=5cm] at (5) {
           Assume $u$ is in the MIS -- remove $u$ and its neighbors,
-          since the neighbors can no longer be in the MIS).
+          since the neighbors can no longer be in the MIS.
         };
     \end{tikzpicture}
   \end{fullwidth}
@@ -288,16 +290,18 @@ file & $|V|$ & $\alpha(G)$\\
  
  If $G$ has a vertex $v$ of degree $1$ return $1+R_1(G[V-N[v]])$.
  
- Make illustrations such as those above to illustrate the new
- algorithm, and use the images both when you implement the algorithm,
- and when you argue the correctness of algorithm $R_1$, i.e., motivate
- why it always computes $\alpha(G)$.
+ Before you write any code -- draw (by hand) pictures such as those
+ above to illustrate what happens with your graph when you run
+ algorithm $R_1$ on it. Use the pictures when you implement the
+ algorithm, and when you argue the correctness of it, i.e., when you
+ motivate why it always computes $\alpha(G)$. You are supposed to
+ bring your pictures and show them to your lab assistant.
  
- Implement algorithm $R_1$ and run it on the instances data/g30.in,
- data/g40.in, $\ldots$, data/g100.in.
+ After you have implemented algorithm $R_1$, run it on the instances
+ data/g30.in, data/g40.in, $\ldots$, data/g100.in.
 
   Count the number of recursive calls of R1 for each instance and plot the
-  logarithm of that number vs the instance vertex size. 
+  logarithm of that number vs the instance vertex size.
   
   What is the time complexity dependence on $n$?
 
@@ -313,13 +317,13 @@ file & $|V|$ & $\alpha(G)$\\
   If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
   proceed just as in algorithm $R_1$.
  
-  Once again, make illustrations such as those above to illustrate the
-  new algorithm, and use the images both when you implement the
-  algorithm, and when you argue the correctness of algorithm $R_2$,
-  i.e. motivate why it always computes $\alpha(G)$.
+  Draw pictures such as those above to illustrate algorithm $R_2$, and
+  use the pictures both when you implement it, and when you argue the
+  correctness of it, i.e., motivate why it always computes
+  $\alpha(G)$.
  
- Implement algorithm $R_2$ and run it on the instances
-  data/g30.in, data/g40.in, $\ldots$, data/g120.in.
+  Run algorithm $R_2$ on the instances data/g30.in, data/g40.in,
+  $\ldots$, data/g120.in.
 
   Count the number of recursive calls of $R_2$ for each instance and plot the
   logarithm of that number vs the instance vertex size. 

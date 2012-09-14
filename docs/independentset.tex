@@ -12,6 +12,17 @@
 \author{}
 
 \newcommand{\mis}{\textsc{MIS}}
+\newcommand{\nodeu}{\ensuremath{\tiny u}}
+\newcommand{\nodev}{\ensuremath{\tiny v}}
+
+\tikzset{
+  auto,node distance=5mm,thick,
+  remaining node/.style={thick,circle,draw,minimum size=3mm,fill=black!10},
+  remaining edge/.style={thick},
+  mis node/.style={dotted,circle,draw,minimum size=3mm,fill=blue!20},
+  removed node/.style={dotted,circle,draw,minimum size=3mm},
+  removed edge/.style={thin,dotted}
+}
 
 \begin{document}
 \maketitle
@@ -53,20 +64,18 @@ graph $G=(V,E)$.
   \begin{marginfigure}
 \begin{tikzpicture}
 \node (a) at (0,0){
-      \begin{tikzpicture}[node distance=.5cm, thick,
-      main node/.style={circle,draw,fill=black!10}]
+      \begin{tikzpicture}
+      \node[remaining node] (1) {};
+      \node[remaining node] (2) [above left of=1] {};
+      \node[remaining node] (3) [above right of=1] {};
+      \node[remaining node] (4) [below left of=1] {};
+      \node[remaining node] (5) [below of=1] {};
+      \node[remaining node] (6) [below right of=1] {};
+      \node[remaining node] (7) [above right of=6] {};
+      \node[remaining node] (8) [above of=7] {};
+      \node[remaining node] (9) [above right of=2] {\nodev};
 
-      \node[main node] (1) {};
-      \node[main node] (2) [above left of=1] {};
-      \node[main node] (3) [above right of=1] {};
-      \node[main node] (4) [below left of=1] {};
-      \node[main node] (5) [below of=1] {};
-      \node[main node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[main node] (9) [above right of=2] {$v$};
-
-      \path[every node/.style={}]
+      \path[remaining edge]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
@@ -74,26 +83,21 @@ graph $G=(V,E)$.
           edge node {} (6)
       (4) edge node {} (5)
       (6) edge node {} (7)
-      (7) edge node {} (8)
-          edge node {} (8);
+      (7) edge node {} (8);
     \end{tikzpicture}};
 \node (b) at (2,0) {
     \begin{tikzpicture}
-      [node distance = .5cm,thick,
-      main node/.style={circle,draw,fill=black!10},
-      removed node/.style={dotted,circle,draw,minimum size=3mm}]
+      \node[remaining node] (1) {};
+      \node[remaining node] (2) [above left of=1] {};
+      \node[remaining node] (3) [above right of=1] {};
+      \node[remaining node] (4) [below left of=1] {};
+      \node[remaining node] (5) [below of=1] {};
+      \node[remaining node] (6) [below right of=1] {};
+      \node[remaining node] (7) [above right of=6] {};
+      \node[remaining node] (8) [above of=7] {};
+      \node[mis node] (9) [above right of=2] {\nodev};
 
-      \node[main node] (1) {};
-      \node[main node] (2) [above left of=1] {};
-      \node[main node] (3) [above right of=1] {};
-      \node[main node] (4) [below left of=1] {};
-      \node[main node] (5) [below of=1] {};
-      \node[main node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[removed node,fill = blue!20] (9) [above right of=2] {$v$};
-
-      \path[every node/.style={}]
+      \path[remaining edge]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
@@ -101,8 +105,7 @@ graph $G=(V,E)$.
           edge node {} (6)
       (4) edge node {} (5)
       (6) edge node {} (7)
-      (7) edge node {} (8)
-          edge node {} (8);
+      (7) edge node {} (8);
     \end{tikzpicture}
   };
     \draw[->, very thick] (a) -- (b);
@@ -120,20 +123,17 @@ graph $G=(V,E)$.
     \begin{tikzpicture}
 \node (base) at (0,0) {
     \begin{tikzpicture}
-      [node distance=5mm,thick,
-      main node/.style={circle,draw,fill=black!10}]
+      \node[remaining node] (1) {\nodeu};
+      \node[remaining node] (2) [above left of=1] {};
+      \node[remaining node] (3) [above right of=1] {};
+      \node[remaining node] (4) [below left of=1] {};
+      \node[remaining node] (5) [below of=1] {};
+      \node[remaining node] (6) [below right of=1] {};
+      \node[remaining node] (7) [above right of=6] {};
+      \node[remaining node] (8) [above of=7] {};
+      \node[remaining node] (9) [above right of=2] {};
 
-      \node[main node] (1) {$u$};
-      \node[main node] (2) [above left of=1] {};
-      \node[main node] (3) [above right of=1] {};
-      \node[main node] (4) [below left of=1] {};
-      \node[main node] (5) [below of=1] {};
-      \node[main node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[main node] (9) [above right of=2] {};
-
-      \path[every node/.style={}]
+      \path[remaining edge]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
@@ -141,28 +141,25 @@ graph $G=(V,E)$.
           edge node {} (6)
       (4) edge node {} (5)
       (6) edge node {} (7)
-      (7) edge node {} (8)
       (3) edge node {} (9)
           edge node {} (8)
       (2) edge node {} (9);
+      \path[remaining edge]
+      (7) edge node {} (8);
     \end{tikzpicture}};
     \node (left) at (-1.5,-2){
     \begin{tikzpicture}
-      [auto,node distance=5mm,thick,
-      main node/.style={circle,draw,fill=black!10},
-      removed node/.style={dotted,circle,draw}]
-
-      \node[removed node,fill = blue!20] (1) {$u$};
+      \node[mis node] (1) {\nodeu};
       \node[removed node] (2) [above left of=1] {};
       \node[removed node] (3) [above right of=1] {};
       \node[removed node] (4) [below left of=1] {};
       \node[removed node] (5) [below of=1] {};
       \node[removed node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[main node] (9) [above right of=2] {};
+      \node[remaining node] (7) [above right of=6] {};
+      \node[remaining node] (8) [above of=7] {};
+      \node[remaining node] (9) [above right of=2] {};
 
-      \path[thin,every node/.style={}]
+      \path[removed edge]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
@@ -173,32 +170,28 @@ graph $G=(V,E)$.
           edge node {} (8)
       (6) edge node {} (7)
       (2) edge node {} (9);
-      \path[every node/.style={}]
+      \path[remaining edge]
       (7) edge node {} (8);       
     \end{tikzpicture}};
     \node (right) at (1.5,-2) {
     \begin{tikzpicture}
-      [auto,node distance=5mm,thick,
-      main node/.style={circle,draw,fill=black!10},
-      removed node/.style={dotted,circle,draw}]
+      \node[removed node] (1) {\nodeu};
+      \node[remaining node] (2) [above left of=1] {};
+      \node[remaining node] (3) [above right of=1] {};
+      \node[remaining node] (4) [below left of=1] {};
+      \node[remaining node] (5) [below of=1] {};
+      \node[remaining node] (6) [below right of=1] {};
+      \node[remaining node] (7) [above right of=6] {};
+      \node[remaining node] (8) [above of=7] {};
+      \node[remaining node] (9) [above right of=2] {};
 
-      \node[removed node] (1) {$u$};
-      \node[main node] (2) [above left of=1] {};
-      \node[main node] (3) [above right of=1] {};
-      \node[main node] (4) [below left of=1] {};
-      \node[main node] (5) [below of=1] {};
-      \node[main node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[main node] (9) [above right of=2] {};
-
-      \path[thin,every node/.style={}]
+      \path[removed edge]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
           edge node {} (5)
           edge node {} (6);
-      \path[every node/.style={}]
+      \path[remaining edge]
       (4) edge node {} (5)
       (6) edge node {} (7)
       (7) edge node {} (8)

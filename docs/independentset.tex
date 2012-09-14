@@ -48,12 +48,13 @@ graph $G=(V,E)$.
 \begin{enumerate}
 \item If the input graph is empty, return $0$.
 \item If the input graph $G$ has a vertex $v$ without any neighbors,
-  return $1+R_0(G[V-v]).$
+  return $1+R_0(G[V-v]).$ See fig.~1.
 
-  \begin{fullwidth}
-    \begin{tikzpicture}
-      [auto,node distance=15mm,thick,
-      main node/.style={circle,draw,minimum size=7mm,fill=black!10}]
+  \begin{marginfigure}
+\begin{tikzpicture}
+\node (a) at (0,0){
+      \begin{tikzpicture}[node distance=.5cm, thick,
+      main node/.style={circle,draw,fill=black!10}]
 
       \node[main node] (1) {};
       \node[main node] (2) [above left of=1] {};
@@ -75,15 +76,12 @@ graph $G=(V,E)$.
       (6) edge node {} (7)
       (7) edge node {} (8)
           edge node {} (8);
-
-      \node [below=5mm, align=flush center, text width=5cm] at (5)
-      {Graph with isolated node ($v$).};
-    \end{tikzpicture}
-    \hspace{1cm}
+    \end{tikzpicture}};
+\node (b) at (2,0) {
     \begin{tikzpicture}
-      [auto,node distance=15mm,thick,
-      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
-      removed node/.style={thin,circle,draw,minimum size=7mm}]
+      [node distance = .5cm,thick,
+      main node/.style={circle,draw,fill=black!10},
+      removed node/.style={dotted,circle,draw,minimum size=3mm}]
 
       \node[main node] (1) {};
       \node[main node] (2) [above left of=1] {};
@@ -93,7 +91,7 @@ graph $G=(V,E)$.
       \node[main node] (6) [below right of=1] {};
       \node[main node] (7) [above right of=6] {};
       \node[main node] (8) [above of=7] {};
-      \node[removed node] (9) [above right of=2] {$v$};
+      \node[removed node,fill = blue!20] (9) [above right of=2] {$v$};
 
       \path[every node/.style={}]
       (1) edge node {} (2)
@@ -105,22 +103,25 @@ graph $G=(V,E)$.
       (6) edge node {} (7)
       (7) edge node {} (8)
           edge node {} (8);
-
-      \node [below=5mm, align=flush center, text width=5cm] at (5)
-      {We can safely say $v$ is in the MIS, and continue without it.};
     \end{tikzpicture}
-  \end{fullwidth}
+  };
+    \draw[->, very thick] (a) -- (b);
+ \end{tikzpicture}
+    \caption{A graph with an isolated node $v$.
+      We can safely say $v$ is in the MIS, and continue without it.}
+  \end{marginfigure}
 
 \item Otherwise find a vertex $u$ of maximum degree (if there are
-  several any will do) and return $\max(1+R_0(G[V-N[u]]),
-  R_0(G[V-u]))$\sidenote{Observe once again that $N[u]$ is the
-    \emph{closed neighborhood} of $u$, i.e., $u$ itself should also be
-    removed.}.
+  several any will do) and return 
+\[\max(1+R_0(G[V-N[u]]),
+  R_0(G[V-u]))\,,\]keeping in mind that that $N[u]$ includes $u$. See fig.~2.
 
-  \begin{center}
+  \begin{marginfigure}
     \begin{tikzpicture}
-      [auto,node distance=15mm,thick,
-      main node/.style={circle,draw,minimum size=7mm,fill=black!10}]
+\node (base) at (0,0) {
+    \begin{tikzpicture}
+      [node distance=5mm,thick,
+      main node/.style={circle,draw,fill=black!10}]
 
       \node[main node] (1) {$u$};
       \node[main node] (2) [above left of=1] {};
@@ -144,17 +145,42 @@ graph $G=(V,E)$.
       (3) edge node {} (9)
           edge node {} (8)
       (2) edge node {} (9);
-
-        \node [below=5mm, align=flush center, text width=7cm] at (5) {
-          Vertex $u$ has highest degree.
-        };
-    \end{tikzpicture}
-  \end{center}
-  \begin{fullwidth}
+    \end{tikzpicture}};
+    \node (left) at (-1.5,-2){
     \begin{tikzpicture}
-      [auto,node distance=15mm,thick,
-      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
-      removed node/.style={thin,circle,draw,minimum size=7mm}]
+      [auto,node distance=5mm,thick,
+      main node/.style={circle,draw,fill=black!10},
+      removed node/.style={dotted,circle,draw}]
+
+      \node[removed node,fill = blue!20] (1) {$u$};
+      \node[removed node] (2) [above left of=1] {};
+      \node[removed node] (3) [above right of=1] {};
+      \node[removed node] (4) [below left of=1] {};
+      \node[removed node] (5) [below of=1] {};
+      \node[removed node] (6) [below right of=1] {};
+      \node[main node] (7) [above right of=6] {};
+      \node[main node] (8) [above of=7] {};
+      \node[main node] (9) [above right of=2] {};
+
+      \path[thin,every node/.style={}]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (4)
+          edge node {} (5)
+          edge node {} (6)
+      (4) edge node {} (5)
+      (3) edge node {} (9)
+          edge node {} (8)
+      (6) edge node {} (7)
+      (2) edge node {} (9);
+      \path[every node/.style={}]
+      (7) edge node {} (8);       
+    \end{tikzpicture}};
+    \node (right) at (1.5,-2) {
+    \begin{tikzpicture}
+      [auto,node distance=5mm,thick,
+      main node/.style={circle,draw,fill=black!10},
+      removed node/.style={dotted,circle,draw}]
 
       \node[removed node] (1) {$u$};
       \node[main node] (2) [above left of=1] {};
@@ -166,7 +192,7 @@ graph $G=(V,E)$.
       \node[main node] (8) [above of=7] {};
       \node[main node] (9) [above right of=2] {};
 
-      \path[thin,dashed, every node/.style={}]
+      \path[thin,every node/.style={}]
       (1) edge node {} (2)
           edge node {} (3)
           edge node {} (4)
@@ -179,47 +205,16 @@ graph $G=(V,E)$.
       (3) edge node {} (9)
           edge node {} (8)
       (2) edge node {} (9);
+    \end{tikzpicture}};
+  \draw [->, very thick] (base) -- (left);
+  \draw [->, very thick] (base) -- (right);
+  \end{tikzpicture}
 
-        \node [below=5mm, align=flush center, text width=7cm] at (5) {
-          Assume $u$ not in the MIS -- just remove $u$.
-        };
-    \end{tikzpicture}
-    \hspace{1cm}
-    \begin{tikzpicture}
-      [auto,node distance=15mm,thick,
-      main node/.style={circle,draw,minimum size=7mm,fill=black!10},
-      removed node/.style={thin,circle,draw,minimum size=7mm}]
-
-      \node[removed node] (1) {$u$};
-      \node[removed node] (2) [above left of=1] {};
-      \node[removed node] (3) [above right of=1] {};
-      \node[removed node] (4) [below left of=1] {};
-      \node[removed node] (5) [below of=1] {};
-      \node[removed node] (6) [below right of=1] {};
-      \node[main node] (7) [above right of=6] {};
-      \node[main node] (8) [above of=7] {};
-      \node[main node] (9) [above right of=2] {};
-
-      \path[thin,dashed, every node/.style={}]
-      (1) edge node {} (2)
-          edge node {} (3)
-          edge node {} (4)
-          edge node {} (5)
-          edge node {} (6)
-      (4) edge node {} (5)
-      (3) edge node {} (9)
-          edge node {} (8)
-      (6) edge node {} (7)
-      (2) edge node {} (9);
-      \path[every node/.style={}]
-      (7) edge node {} (8);
-
-        \node [below=5mm, align=flush center, text width=5cm] at (5) {
-          Assume $u$ is in the MIS -- remove $u$ and its neighbors,
-          since the neighbors can no longer be in the MIS.
-        };
-    \end{tikzpicture}
-  \end{fullwidth}
+    \caption{Vertex $u$ has highest degree.
+      Left branch: Assume $u$ is in the MIS -- remove $u$ and its
+      neighbors, since the neighbors can no longer be in the MIS.
+      Right branch: Assume $u$ not in the MIS -- just remove $u$.}
+  \end{marginfigure}
 \end{enumerate}
 To see why algorithm $R_0$ correctly computes $\alpha(G)$, note that
 if there is an isolated vertex $v$, a maximum size independent set

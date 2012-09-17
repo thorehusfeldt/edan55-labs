@@ -16,7 +16,24 @@
 \footnotetext{rev. \GITAbrHash}
 
 \section{Pagerank}
-Consider an directed multigraph $G=(V,E)$ without self-loops, as in
+
+\begin{marginfigure}
+\begin{tikzpicture}
+\node (0) [draw,circle] at (0,0) {0};
+\node (1) [draw,circle] at (1,1) {1};
+\node (2) [draw,circle] at (2,-.5) {2};
+\node (3) [draw,circle] at (3,.5) {3};
+\draw [->] (0) to [bend left] (1);
+\draw [->] (0) to  (1);
+\draw [->] (0) to [bend right] (2);
+\draw [->] (1) to  (2);
+\draw [->] (2) to  (0);
+\draw [->] (2) to [bend right] (1);
+\draw [->] (2) to (3);
+\end{tikzpicture}
+\caption{A directed multigraph.}
+\end{marginfigure}
+Consider an finite, directed multigraph $G=(V,E)$ without self-loops, as in
 Fig.~1.
 We will understand $G$ as the hyperlink structure of the web pages
 described by $V$; an an arc from vertex $u$ to vertex $v$ describes a
@@ -32,31 +49,36 @@ vertex~1 in the example, the chance of going to 3 is double that of
 going to 4.)
 Alternatively, with probability $(1-\alpha)$, the surfer becomes bored
 and moves to a random page from $V$ instead.
+The probability $\alpha$ is called the \emph{damping factor}; a
+typically value that works well for web pages is $\alpha = \frac{85}{100}$. 
 
-This process is a Markov chain.\sidenote{In fact, a finite,
-  irreducible, and ergodic Markov chain, provided $G$ is finite.}
+This process is a finite, irreducible, and ergodic Markov chain.
 Its stationary distribution describes the \emph{page rank} of each
-vertex.
+vertex. The contribution of Serge Brin and Larry Page was to
+realise that this value gives a good measure of the relevance of a web
+page, which is the main idea behind the search engine Google.
 
 \subsection{Files}
+
+
+\begin{marginfigure}
+\begin{verbatim}
+4
+0 1   0 1   0 2
+1 2   
+2 0   2 1
+2 3
+\end{verbatim}
+\caption{Input file for the graph in Fig.~1.}
+\end{marginfigure}
 
 Vertex names are integers $V= \{0,\ldots, n-1\}$.
 Input files contain $|V|$, followed by $u$ and $v$ for each $(u,v)\in
 E$.
-
-\begin{marginnote}
-\begin{verbatim}
-3
-0 1   0 1   0 2
-1 2   
-2 0   2 1
-\end{verbatim}
-\caption{Input file for the graph in Fig.~1.}
-\end{marginnote}
-
-The files are
+The files are in the data directory are:
+\begin{quotation}
 \begin{description}
-\item[three.txt] The 3-vertex graph from Fig.~1.
+\item[three.txt] The 4-vertex graph from Fig.~1.
 \item[tiny.txt] The 5-vertex graph from \S{}1.6. in [Sedgewick and Wayne,
   \emph{Programming in Java: An Interdisciplinary Approach}, Addison
   Wesley, 2007]
@@ -64,8 +86,8 @@ The files are
 \item[wikipedia.txt] The 11-vertex graph from
   [``PageRank.'' Wikipedia, The Free Encyclopedia. Wikimedia
   Foundation, Inc. Accessed 16 Sep 2012.]
-
 \end{description}
+\end{quotation}
 
 \subsection{Deliverables}
 
@@ -79,7 +101,8 @@ The files are
   simulation.
   That is, construct the transition probability matrix $P$ and
   compute $pP^m$ for some sufficiently high $m$ (read from the command
-  line).
+  line) and some initial vector $p$ of your choice.
+  There are (at least) three different ways of computing $p P^m$.
 \item Fill out the report.
 \end{enumerate}
 
@@ -92,277 +115,98 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
   in your names and the parts marked $[\ldots]$.
   Remove the sidenotes in your final hand-in.}
 
-\subsection{Running time}
+\subsection{Transition probabilities}
 
-The running time of algorithm~R is $[\ldots]$\sidenote{Replace
-  $[\ldots]$ by a function of $n$ and/or $m$. You can use asymptotic
-  notation. This is supposed to be easy.}.
+The transition matrix for the graph described in three.txt
+is\sidenote{Fill in the right values. Set $\alpha=\frac{85}{100}$.}
+\begin{equation*}
+P = 
+\left(
+\begin{array}{ccc}
+1 & 6 & \pi \\
+1 & 1/e & -2 \\
+1 & 1 & 0 \\
+\end{array}
+\right)\,,
+\end{equation*}
+and its 10th power is
+\begin{equation*}
+P^{10} = 
+\left(
+\begin{array}{ccc}
+1 & 6 & \pi \\
+1 & 1/e & -2 \\
+1 & 1 & 0 \\
+\end{array}
+\right)\,.
+\end{equation*}
 
-\subsection{Randomness}
+\subsection{Results}
 
-Algorithm R uses $[\ldots]$\sidenote{Replace
-  $[\ldots]$ by a function of $n$ and/or $m$. Do not use asymptotic
-  notation. This is supposed to be easy.} random bits.
-
-\subsection{Solution quality}
-
-\paragraph{Experiments.}
-
-\begin{enumerate}
-\item
-For the input file  pw09\_100.9.txt with $t=100$ runs, we found
-an average cutsize of $C=[\ldots]$, roughly $[\ldots]$\% of the optimum
-$\operatorname{OPT} = 13658$.
-The distribution of cutsizes looks as follows:\sidenote{Display your
-  cutsizes as a histogram. Use whatever software you like to produce
-  the image; the placeholder image on the left is constructed in the
-  \LaTeX\ source.}
+The following table gives the top hits, i.e., the 10 first vertices of
+each graph sorted by page rank, using $\alpha = \frac{85}{100}$.
 
 \medskip
+\begin{fullwidth}
+\small
+\begin{tabular}{lcccccccccc}
+three.txt & 2 (36.6\%) & 1 (27.5\%) & 0 (18.4\%) & 3 (17.3\%) \\
+tiny.txt & [\ldots] &\\
+medium.txt &\\
+wikipedia.txt & \\
+\end{tabular}
+\end{fullwidth}
 
-\noindent
-\begin{tikzpicture}
-\begin{axis}[
-  height= 5cm,
-  ybar interval,
-  xmin = 0,  xmax = 13658,
-  xtick =       {0   ,   5000,   10000, 13658},
-  xticklabels = { $0$, $5000$, $10000$,   OPT},
-  x tick label as interval = false,
-  scaled ticks = false
-]
-    \addplot+[hist={bins=100}]
-        table[y index=0] {
-          % output of 
-          % perl -e "for $i (1..100) { system 'python sol/rmaxcut.py < data/pw09_100.9.txt '}"
-12296
-12401
-12176
-12414
-11767
-12458
-12407
-12551
-12363
-12526
-11865
-12353
-12159
-12504
-12130
-11616
-12347
-12201
-12473
-12368
-12196
-12274
-12064
-12398
-12733
-12620
-12402
-12231
-12442
-12360
-12567
-11650
-12334
-12543
-12108
-12523
-12256
-12524
-12642
-12040
-12404
-12408
-12606
-12094
-12484
-12457
-12459
-12326
-12307
-12282
-12276
-12459
-12107
-12474
-12410
-12109
-12308
-12471
-12588
-12473
-12338
-12499
-12233
-12453
-12448
-12541
-12488
-12497
-12230
-12393
-12335
-12446
-11503
-12304
-12612
-12378
-12108
-12684
-12422
-12557
-12441
-12334
-12400
-12369
-11734
-12237
-12631
-12289
-11773
-12460
-12366
-12355
-12502
-12323
-12543
-12271
-12415
-12227
-12711
-12370
-    };
-\end{axis}
-\end{tikzpicture}
+\bigskip The following table gives the number of random walk steps and
+(scalar) multiplications needed for each graph until the results were
+stable.
 
-\item
-For the input file matching\_1000.txt
-$[\ldots]$\sidenote{Perform the same analysis for 
-    matching\_1000.txt. This involves thinking to determine OPT.}
+\medskip
+\begin{fullwidth}
+\small
+\begin{tabular}{lcccccccccc}
+Graph & \# transitions  & \# multiplications \\
+three.txt & 54,325 \\
+tiny.txt &\\
+medium.txt &\\
+wikipedia.txt & \\
+\end{tabular}
+\end{fullwidth}
+
+
+\subsection{Optional (1)}
+
+There are (at least) 3 ways of computing $pP^m$.
+Redo the last table for each of these 3 methods.
+\begin{enumerate} 
+\item Let $p_0= p$. For each $i=1,\ldots, m$ let $p_i = p_{i-1}
+  P$. Return $p_m$.
+\item Compute $Q = P^m = P\cdot P \cdots P$ using $m-1$ matrix products.
+  Return $pQ$.
+\item Compute $P^m$ by iterated squaring. Assume $m$ is a power of
+  2. Set $Q_0 = P$ and for $i=1,\ldots,\log m$ compute $Q_i =
+  Q_{i-1}^2$. Return $pQ_{\log m}$. 
 \end{enumerate}
-\paragraph{Analysis of performance guarantee}
-
-Clearly, Algorithm R performs quite badly on input 
-  matching\_1000.txt.
-We will show that it can perform \emph{no worse} than that, i.e., we
-will establish that in expectation, the cutsize $C$ satisfies $C \geq
-[\ldots]\cdot \operatorname{OPT}$.\sidenote{Replace [\ldots] by the
-  right constant}
 
 
-We will view $C$ as a random variable that gives the size of the cut
-defined by the random choices.
-Let $W$ denote the total weight of the edges of $G$, i.e.,
-\[ W= \sum_{e\in E} w(e)\,.\]
+\subsection{Optional (2)}
 
-Then,
-\begin{equation}\label{eq: E[C]}
-E[C] = \textstyle\frac{1}{2}\cdot W\,.
-\end{equation}
+Build a time machine, fly back to the early 1990s.
+Start a search engine company based on this idea.
 
-To see this, define the indicator random variable $X_{uv}$ for every
-edge $uv\in E$ as follows.
-Set $X_{uv}=1$ if $uv$ crosses the cut, i.e., $u\in A$ and $v\notin A$
-or $u\notin A$ and $v\in A$.
-Otherwise, $X_{uv} = 0$.
-
-Then, $\Pr(X_{uv} = 1) = [\ldots]$.
-Now, $E[C]=[\ldots]$ Finally, we have 
-\(E[C]\geq [\ldots]\cdot \text{OPT}\) because clearly
-$[\ldots]$.\sidenote{Fill in the missing blanks in this paragraph.
-  Your calculations and arguments need to include phrases like
-  ``because BLA and BLA are independent'' or ``disjoint,'' and ``by
-  linearity of expectation'' and ``because the weights are positive.''
-
-}
-
-
-\newpage
-\section{Optional: Derandomising Algorithm R}
-
-\subsection{Algorithm L} 
-
-
-We now reduce the number of random bits used by the algorithm to $\log
-n$ using a simple \emph{pseudorandom generator}.
-
-
-Let $k=\lceil\log (n+1)\rceil$ and flip $k$ coins $b_1,\ldots, b_k$.
-There are $2^k -1 \geq n$ different ways of choosing a nonempty subset
-$S\subseteq [k]$ of the coins.
-Each of these ways defines a random bit $r_S =\bigoplus_{i\in S} b_i$.
-(Here, $\xor$ denotes exclusive or.)
-This gives a total of $n$ random bits.
-These random bits are not as high-quality as the original $k$ bits,
-but they retain the crucial property of \emph{pairwise independence}:
-If $S\neq T$ then
-\[ \Pr(r_S\neq r_T) = [\ldots],.\]
-
-Extend Algorithm~R using this idea; call the resulting
-algorithm~L (for logarithmic randomness).
-
-\subsection{Algorithm Z}
-
-For our final trick, we let the random bits disappear completely:
-since Algorithm~L uses only $k$ bits of randomness, we can iterate
-over \emph{all} coin flips---there are only $2^k$, which is polynomial
-(in fact, linear) in $n$.
-Extend algorithm~L using this idea; call the resulting algorithm~Z
-(for zero randomness).
-The running time of Z is $O([\ldots])$.
 
 \newpage
 \section{Perspective}
 
-This lab establishes minimal skills in algorithms implementation,
-probabilistic analysis of algorithms (independence, linearity of
-expectation, and in particular the trick of computing an expectation
-using indicator random variables), and approximation guarantees (in
-particular, finding upper and lower bounds by exhibiting a concrete
-``bad instance'' and a comparison to a hypothetical optimum,
-respectively).
-The histogram aims to establish the intuition that measure is
-concentrated around its expectation.
+The biggest thing missing from this lab is in the linear algebra part:
+Transition matrices for web pages are very, very large and very, very
+sparse.
+So it makes sense to use a matrix multiplication algorithm for sparse
+matrices.
+In fact, for large datasets such as the world wide web, this is
+crucial.
 
-\bigskip
 
-To establish that Maxcut is NP-hard one reduces from NAE-Sat, a
-reduction that can be found in many places\sidenote{C. Moore and
-S. Mertens, \emph{The Nature of Computation}, Oxford University Press,
-  2011, p. 146.}
-Recall that the related problem \emph{Minimum Cut} is easy because of
-the max flow--min cut theorem.
-A moment's thought should convince you that as soon as negative
-weights are allowed, the two problems are the same (and both are
-hard).
-Algorithm R doesn't work at all for negative weights.
-
-Algorithm R is a classical randomised approximation algorithm, its
-origins seem to be shrouded in the mists of time.
-The \emph{deterministic} algorithm of Sahni and Gonzales\sidenote{S.\
-  Sahni and T.\ Gonzalez.
-  P-complete approximation problems.
-  \emph{J.\ Assoc.\ Comput.\ Mach.}, 23(3):555--565, 1976.}
-can be viewed as a derandomisation of R using the \emph{method of
-  conditional expectations}.
-These algorithms were best knows until the breakthrough result of
-Goemans and Williamson,\sidenote{M.\ X.\ Goemans and D.\ P.\
-  Williamson.
-  Improved approximation algorithms for maximum cut and satisfiability
-  problems using semidefinite programming.
-  \emph{J.\ Assoc.\ Comput.\ Mach.}, 42(6):1115--1145, 1995.}
-which improved the approximation factor to $0.87856$.
-H\aa{}stad has shown that no algorithm can approximate the maxcut
-better than $16/17\sim 0.941176$ unless P equals NP. Khot has shown
-that the Goemans--Williamson bound is essentially optimal under the
-\emph{Unique Games Conjecture}.
-
-Algorithm L can also be viewed as an application of \emph{pairwise
-  independent hash functions}.
 
 
 \end{document}

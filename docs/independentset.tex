@@ -300,7 +300,7 @@ file & $|V|$ & $\alpha(G)$\\
   If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
   $uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
   the graph with edges to every neighbor of $u$ and $w$, except $v$,
-  and return $1+R_2(G[V-N[v]+z)$.
+  and return $1+R_2(G[V-N[v]+z])$.
 
   If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
   proceed just as in algorithm $R_1$.

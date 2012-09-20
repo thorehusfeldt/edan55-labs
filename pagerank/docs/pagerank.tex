@@ -79,13 +79,26 @@ The files are in the data directory are:
 \begin{quotation}
 \begin{description}
 \item[three.txt] The 4-vertex graph from Fig.~1.
-\item[tiny.txt] The 5-vertex graph from \S{}1.6. in [Sedgewick and Wayne,
+\item[tiny.txt] The 5-vertex graph from \S{}1.6. from Sedgewick and
+  Wayne\sidenote{R. Sedgewick and K. Wayne,
   \emph{Programming in Java: An Interdisciplinary Approach}, Addison
-  Wesley, 2007]
+  Wesley, 2007.}
 \item[medium.txt] The 50-vertex graph \emph{ibid.}
-\item[wikipedia.txt] The 11-vertex graph from
-  [``PageRank.'' Wikipedia, The Free Encyclopedia. Wikimedia
-  Foundation, Inc. Accessed 16 Sep 2012.]
+\item[wikipedia.txt] The 11-vertex graph from Wikipedia's PageRank article
+  \sidenote{``PageRank.'' Wikipedia, The Free Encyclopedia. Wikimedia
+  Foundation, Inc. Accessed 16 Sep 2012.}
+\item[p2p-Gnutella08-mod.txt] A 6301-vertex graph describing a file
+  sharing network. 
+Vertices represent hosts in the Gnutella network topology and edges
+represent connections between the Gnutella host, collected 8 August
+2002.\sidenote{Modified from the Stanford University SNAP library,
+  original file at
+  snap.stanford.edu/data/p2p-Gnutella08.html. Sources:
+J. Leskovec, J. Kleinberg and C. Faloutsos. \emph{Graph Evolution: Densification and Shrinking Diameters}. ACM Transactions on Knowledge Discovery from Data (ACM TKDD), 1(1), 2007.
+M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
+  Network: Properties of Large-Scale Peer-to-Peer Systems and
+  Implications for System Design}. IEEE Internet Computing Journal,
+2002.}
 \end{description}
 \end{quotation}
 
@@ -100,9 +113,37 @@ The files are in the data directory are:
 \item Solve the exact same problem using linear algebra instead of
   simulation.
   That is, construct the transition probability matrix $P$ and
-  compute $pP^m$ for some sufficiently high $m$ (read from the command
+  compute $pP^r$ for some sufficiently high $r$ (read from the command
   line) and some initial vector $p$ of your choice.
-  There are (at least) three different ways of computing $p P^m$.
+  There are (at least) 3 ways of computing $pP^r$:
+  \begin{enumerate} 
+  \item Let $p_0= p$. For each $i=1,\ldots, m$ let $p_i = p_{i-1}
+    P$. Return $p_r$.
+  \item Compute $Q = P^r = P\cdot P \cdots P$ using $r-1$ matrix products.
+    Return $pQ$.
+  \item Compute $P^r$ by iterated squaring. Assume $r$ is a power of
+    2. Set $Q_0 = P$ and for $i=1,\ldots,\log r$ compute $Q_i =
+    Q_{i-1}^2$. Return $pQ_{\log r}$. 
+  \end{enumerate}
+  Pick the one you think is fastest or easiest to implement for the
+  small instances.
+
+  However, to attack an instance of nontrivial size, you need to
+  exploit the structure of the transition matrix.
+  (Unless you like waiting a lot.)
+  Let $A$ denote the adjacency matrix of $G$.
+  Then we have the hyperlink matrix $H$ defined as $H_{ij} = A_{ij} /
+  \deg(i)$.
+  Let $D$ denote the matrix where $D_{ij} = 0$ if $\deg(i) > 0 $ and
+  $D_{ij} = 1/n$ if $\deg(i) = 0$ then
+  \[ P = \alpha(H + D) + \frac{1-\alpha}{n} \bf 1\,,\]
+  where $\bf 1$ is the $|V|\times |V|$ all-1s matrix.
+  In particular,
+  \[pP = \alpha p H + \alpha p D + \frac{1-\alpha}{n} p \bf 1\,.\] All
+  three of these vector--matrix products are simpler to compute: $D$
+  and $\bf 1$ have identical columns, and $H$ is sparse (so you don't
+  store is as a square matrix of size $O(|V|^2)$; just as a list of
+  $O(|E|)$ nonzero values.).
 \item Fill out the report.
 \end{enumerate}
 
@@ -141,6 +182,9 @@ P^{10} =
 \right)\,.
 \end{equation*}
 
+The transition matrix $P$ can be broken down into  $P = \alpha(H + D)
++ \frac{1-\alpha}{n} \bf 1$, where $H =[\ldots]$ and $D =[\ldots]$.
+
 \subsection{Results}
 
 The following table gives the top hits, i.e., the 10 first vertices of
@@ -154,12 +198,13 @@ three.txt & 2 (36.6\%) & 1 (27.5\%) & 0 (18.4\%) & 3 (17.3\%) \\
 tiny.txt & [\ldots] &\\
 medium.txt &\\
 wikipedia.txt & \\
+p2p-Gnutella08-mod.txt &
 \end{tabular}
 \end{fullwidth}
 
 \bigskip The following table gives the number of random walk steps and
 (scalar) multiplications needed for each graph until the results were
-stable.
+stable to within 2 decimal places.
 
 \medskip
 \begin{fullwidth}
@@ -170,26 +215,11 @@ three.txt & 54,325 \\
 tiny.txt &\\
 medium.txt &\\
 wikipedia.txt & \\
+p2p-Gnutella08-mod.txt
 \end{tabular}
 \end{fullwidth}
 
-
-\subsection{Optional (1)}
-
-There are (at least) 3 ways of computing $pP^m$.
-Redo the last table for each of these 3 methods.
-\begin{enumerate} 
-\item Let $p_0= p$. For each $i=1,\ldots, m$ let $p_i = p_{i-1}
-  P$. Return $p_m$.
-\item Compute $Q = P^m = P\cdot P \cdots P$ using $m-1$ matrix products.
-  Return $pQ$.
-\item Compute $P^m$ by iterated squaring. Assume $m$ is a power of
-  2. Set $Q_0 = P$ and for $i=1,\ldots,\log m$ compute $Q_i =
-  Q_{i-1}^2$. Return $pQ_{\log m}$. 
-\end{enumerate}
-
-
-\subsection{Optional (2)}
+\subsection{Optional}
 
 Build a time machine, fly back to the early 1990s.
 Start a search engine company based on this idea.

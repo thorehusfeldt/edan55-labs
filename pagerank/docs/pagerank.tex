@@ -44,9 +44,11 @@ rank the relevance of a these pages.
 The states of this process are the vertices $V$.
 With good probability $\alpha$, the process picks an outgoing edge at
 random and moves to that page.
+If there are no outgoing edges, the surfer picks a random page from
+$V$ instead.
 (Note that outgoing edges are counted with multiplicities, so from
-vertex~1 in the example, the chance of going to 3 is double that of
-going to 4.)
+vertex~0 in the example, the chance of going to 1 is twice that of
+going to 2.)
 Alternatively, with probability $(1-\alpha)$, the surfer becomes bored
 and moves to a random page from $V$ instead.
 The probability $\alpha$ is called the \emph{damping factor}; a

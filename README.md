@@ -2,18 +2,26 @@ Labs for EDAN55
 ===============
 
 A set of exploratory assignments designed for the course EDAN55
-"Advanced Algorithms" at Lund University.
+“Advanced Algorithms” at Lund University.
 
 Every lab has its own directory and contains two subdirectories:
 
-  <labname>/data     -- data files
-  <labname>/doc      -- lab documentation (LaTeX)
+    <labname>/data     -- data files
+    <labname>/docs     -- lab documentation (LaTeX), including a
+                          report skeleton
 
 Installation
 ------------
 
 To make the documentation, you need an up-to-date (2012) version of
-LaTeX. Then
+LaTeX. To make an individual lab, run
 
-    cd <labname>/doc
+    cd <labname>/docs
     make
+
+To make all labs, just
+
+    make
+
+in the root, which will put all PDFs into the root level directory
+`docs`.

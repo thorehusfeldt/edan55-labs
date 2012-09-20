@@ -58,7 +58,8 @@ This process is a finite, irreducible, and ergodic Markov chain.
 Its stationary distribution describes the \emph{page rank} of each
 vertex. The contribution of Serge Brin and Larry Page was to
 realise that this value gives a good measure of the relevance of a web
-page, which is the main idea behind the search engine Google.
+page, which is the main idea behind the search engine
+Google.
 
 \subsection{Files}
 
@@ -117,6 +118,8 @@ M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
   That is, construct the transition probability matrix $P$ and
   compute $pP^r$ for some sufficiently high $r$ (read from the command
   line) and some initial vector $p$ of your choice.
+  In fact, we're approximating the dominant left eigenvector, i.e., a
+  vector satisfying $pP= p$.
   There are (at least) 3 ways of computing $pP^r$:
   \begin{enumerate} 
   \item Let $p_0= p$. For each $i=1,\ldots, m$ let $p_i = p_{i-1}
@@ -227,18 +230,22 @@ Build a time machine, fly back to the early 1990s.
 Start a search engine company based on this idea.
 
 
-\newpage
 \section{Perspective}
 
-The biggest thing missing from this lab is in the linear algebra part:
-Transition matrices for web pages are very, very large and very, very
-sparse.
-So it makes sense to use a matrix multiplication algorithm for sparse
-matrices.
-In fact, for large datasets such as the world wide web, this is
-crucial.
+For more thorough introduction to the mathematics
+  behind this model, see David Austin, \emph{How Google Finds Your Needle in
+  the Web's Haystack}, American Mathematical Society Feature Column,
+  2006.\sidenote{www.ams.org/samplings/feature-column/fcarc-pagerank, retrieved
+20 Sep 2012.}
 
-
-
-
+The original paper is Sergey Brin, Lawrence Page, The antaomy of a
+large-scale hypertextual Web search engine\sidenote{Computer Networks
+  and ISDN Systems, 33: 107-17, 1998.
+  infolab.stanford.edu/pub/papers/google.pdf}m, which also mentions a
+bit about the data structure used for storing web page content.
+A different model for establishing web page relevance was established
+by Kleinberg around the same time as PageRank.\sidenote{Kleinberg, Jon (1999).
+  \emph{Authoritative sources in a hyperlinked environment}.
+  Journal of the ACM 46 (5): 604--632.
+  doi:10.1145/324133.324140.}
 \end{document}

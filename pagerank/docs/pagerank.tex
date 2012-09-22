@@ -168,10 +168,11 @@ is\sidenote{Fill in the right values. Set $\alpha=\frac{85}{100}$.}
 \begin{equation*}
 P = 
 \left(
-\begin{array}{ccc}
-1 & 6 & \pi \\
-1 & 1/e & -2 \\
+\begin{array}{cccc}
+1 & 6 & \pi & 1\\
+1 & 1/e & -2  & \cdots\\
 1 & 1 & 0 \\
+\vdots
 \end{array}
 \right)\,,
 \end{equation*}
@@ -179,10 +180,9 @@ and its 10th power is
 \begin{equation*}
 P^{10} = 
 \left(
-\begin{array}{ccc}
-1 & 6 & \pi \\
-1 & 1/e & -2 \\
-1 & 1 & 0 \\
+\begin{array}{cccc}
+1 & \cdots\\
+\vdots
 \end{array}
 \right)\,.
 \end{equation*}
@@ -238,10 +238,10 @@ For more thorough introduction to the mathematics
   2006.\sidenote{www.ams.org/samplings/feature-column/fcarc-pagerank, retrieved
 20 Sep 2012.}
 
-The original paper is Sergey Brin, Lawrence Page, The antaomy of a
-large-scale hypertextual Web search engine\sidenote{Computer Networks
+The original paper is Sergey Brin, Lawrence Page, \emph{The anatomy of a
+large-scale hypertextual Web search engine}\sidenote{Computer Networks
   and ISDN Systems, 33: 107-17, 1998.
-  infolab.stanford.edu/pub/papers/google.pdf}m, which also mentions a
+  infolab.stanford.edu/pub/papers/google.pdf}, which also mentions a
 bit about the data structure used for storing web page content.
 A different model for establishing web page relevance was established
 by Kleinberg around the same time as PageRank.\sidenote{Kleinberg, Jon (1999).

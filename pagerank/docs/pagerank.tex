@@ -82,13 +82,12 @@ The files are in the data directory are:
 \begin{quotation}
 \begin{description}
 \item[three.txt] The 4-vertex graph from Fig.~1.
-\item[tiny.txt] The 5-vertex graph from \S{}1.6. from Sedgewick and
-  Wayne\sidenote{R. Sedgewick and K. Wayne,
+\item[tiny.txt] The 5-vertex graph from \S{}1.6 from Sedgewick and
+  Wayne.\sidenote{R. Sedgewick and K. Wayne,
   \emph{Programming in Java: An Interdisciplinary Approach}, Addison
   Wesley, 2007.}
 \item[medium.txt] The 50-vertex graph \emph{ibid.}
-\item[wikipedia.txt] The 11-vertex graph from Wikipedia's PageRank article
-  \sidenote{``PageRank.'' Wikipedia, The Free Encyclopedia. Wikimedia
+\item[wikipedia.txt] The 11-vertex graph from Wikipedia's PageRank article.\sidenote{``PageRank.'' Wikipedia, The Free Encyclopedia. Wikimedia
   Foundation, Inc. Accessed 16 Sep 2012.}
 \item[p2p-Gnutella08-mod.txt] A 6301-vertex graph describing a file
   sharing network. 
@@ -140,15 +139,18 @@ M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
   Then we have the hyperlink matrix $H$ defined as $H_{ij} = A_{ij} /
   \deg(i)$.
   Let $D$ denote the matrix where $D_{ij} = 0$ if $\deg(i) > 0 $ and
-  $D_{ij} = 1/n$ if $\deg(i) = 0$ then
+  $D_{ij} = 1/n$ if $\deg(i) = 0$.
+  Then,
   \[ P = \alpha(H + D) + \frac{1-\alpha}{n} \bf 1\,,\]
   where $\bf 1$ is the $|V|\times |V|$ all-1s matrix.
   In particular,
   \[pP = \alpha p H + \alpha p D + \frac{1-\alpha}{n} p \bf 1\,.\] All
-  three of these vector--matrix products are simpler to compute: $D$
-  and $\bf 1$ have identical columns, and $H$ is sparse (so you don't
-  store is as a square matrix of size $O(|V|^2)$; just as a list of
-  $O(|E|)$ nonzero values.).
+  three of these vector--matrix products are simpler to compute: all
+  columns in $D$ are identical, all columns in $\bf 1$ are identical,
+  and $H$ is sparse (so you don't store is as a square matrix of size
+  $O(|V|^2)$; just as a list of $O(|E|)$ nonzero values).
+  Oh, and if you really just wrote code to compute the dot product
+  between $p$ and an all-1s vector, this is a good time for a break.
 \item Fill out the report.
 \end{enumerate}
 

@@ -1,3 +1,17 @@
+"""Module for determinant computation over GF(p).
+
+Usage:
+
+>>> import gfp
+>>> F = gfp.GFp(11)         # Galois field with 11 elements
+>>> F.det( [[1,0],[0,1]] )  # Matrices are lists of lists
+1
+>>> F.det( [[10,9],[1,2]] ) # Nonsingular over R, singular over F
+0
+
+
+"""
+
 import copy
 
 class GFp:
@@ -21,8 +35,8 @@ class GFp:
             sign *= -1
         return sum
 
-    def det_gauss(self, B):
-        """ Determinant of A computed using Gaussian elemination"""
+    def det(self, B):
+        """ Determinant of B computed using Gaussian elemination"""
         det = 1
         A = copy.deepcopy(B) # otherwise B would be destroyed
         n = len(A)
@@ -55,6 +69,8 @@ if __name__ == "__main__":
     p = 599
     gfp = GFp(p)
 
+    assert (gfp.det([[1,0],[0,1]]) == 1)
+
     matrices = [
         [[0,1],[1,0]],
         [[0,1],[0,1]],
@@ -81,7 +97,7 @@ if __name__ == "__main__":
         ]
 
     for A in matrices:
-        assert(gfp.det_laplace(A) == gfp.det_gauss(A))
+        assert(gfp.det_laplace(A) == gfp.det(A))
 
         # wild west testing: random 8x8 matrix   
     import random
@@ -89,5 +105,5 @@ if __name__ == "__main__":
         [random.randrange(599) for i in range(8)]
         for i in range(8)
         ]
-    assert(gfp.det_laplace(A) == gfp.det_gauss(A))
+    assert(gfp.det_laplace(A) == gfp.det(A))
 

@@ -4,7 +4,7 @@ Labs for EDAN55
 A set of exploratory assignments designed for the course EDAN55
 “Advanced Algorithms” at Lund University.
 
-Every lab has its own directory and contains two subdirectories:
+Each lab has its own directory and contains one or two subdirectories:
 
     <labname>/data     -- data files
     <labname>/docs     -- lab documentation (LaTeX), including a

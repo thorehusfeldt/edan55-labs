@@ -1,5 +1,4 @@
-
-DIRS    = collatz81 independentset 	maxcut 	pagerank rainbow
+DIRS    = collatz81 independentset 	maxcut 	pagerank	rainbow	marking
 
 docs:
 	mkdir docs

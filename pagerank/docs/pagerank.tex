@@ -133,13 +133,24 @@ M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
   small instances.
 
   However, to attack an instance of nontrivial size, you need to
-  exploit the structure of the transition matrix.
-  (Unless you like waiting a lot.)
-  Let $A$ denote the adjacency matrix of $G$.
-  Then we have the hyperlink matrix $H$ defined as $H_{ij} = A_{ij} /
-  \deg(i)$.
-  Let $D$ denote the matrix where $D_{ij} = 0$ if $\deg(i) > 0 $ and
-  $D_{ij} = 1/n$ if $\deg(i) = 0$.
+  exploit the structure of the transition matrix.  (Unless you like
+  waiting a lot.)  Let $A$ denote the adjacency matrix of $G$, and
+  define the two matrices
+  \[
+  H_{ij} =
+  \begin{cases}
+    A_{ij} / \deg(i) & \text{if } \deg(i) > 0 \\
+    0 & \text{if } \deg(i) = 0    
+  \end{cases}
+  \]
+  and
+  \[
+  D_{ij} =
+  \begin{cases}
+    0 & \text{if } \deg(i) > 0 \\
+    1 / n & \text{if } \deg(i) = 0.
+  \end{cases}
+  \]
   Then,
   \[ P = \alpha(H + D) + \frac{1-\alpha}{n} \bf 1\,,\]
   where $\bf 1$ is the $|V|\times |V|$ all-1s matrix.

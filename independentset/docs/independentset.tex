@@ -416,7 +416,7 @@ Denote be $T_i(n)$ the worst runtime of algorithm Ri on \emph{any} graph on $n$ 
 Note that $T_i(n)$ is a non-decreasing function of $n$.
 For $R_0$ we can conclude that
 \begin{align*}
-T_0(n) &\leq T_0(n-1)+T_0(n-1-d_{\mbox{max}}) \\ &\leq T_0(n-1)+T_0(n-2)
+T_0(n) &\leq\max(T_0(n-1), T_0(n-1)+T_0(n-1-d_{\mbox{max}})) \\ &\leq T_0(n-1)+T_0(n-2)
 \end{align*}
 with $d_{\mbox{max}}$ the degree of the vertex we branch on. The hard part is the one when there are no isolated vertices, in which case the vertex $u$ we are branching on has at least one neighbor. 
 

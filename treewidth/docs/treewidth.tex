@@ -1,0 +1,97 @@
+\documentclass{tufte-handout}
+\usepackage{amsmath,amsthm}
+
+\input{vc.tex}  % For version control
+
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\newtheorem{claim}{Claim}[section]
+\title{Treewidth}
+\date{\GITAuthorDate, rev. \GITAbrHash}
+\author{}
+
+\begin{document}
+\maketitle
+
+Implement an algorithm for independent set using dynamic programming over a (given) tree-decomposition.
+
+\emph{2016 is the first time we try this exercise. Problems are to be expected.}
+
+\subsection{The algorithm}
+
+The algorithm takes as input an unweighted, undirected graph $G$ and a tree-decomposition $T$ of $G$ with width $w$.
+A detailed explanation of the algorithm can be found in \emph{Tree Decompositions of Graphs}, Section 10.4 of Kleinberg and Tardos, \emph{Algorithms Design}, Addison--Wesley 2005.
+
+You need to achieve a running time of $\exp(O(w))\operatorname{poly}(n)$; a straightforward implementation of the pseudo-code in the book will achieve that, as analysed at the end of Section 10.4.
+
+\paragraph{My thoughts about implementation.}
+I parse both $G$ and $T$ as graphs.
+Note that the input representation of $T$ is just an undirected, connected graph without cycles, so we can pick any node of degree 1 as the root $r$ of the tree decomposition.
+From $r$, I perform a (very simple) graph traversal that allows me to associate with each node $t$ of $T$ the list of its children (in $T$) and a topological ordering.
+I ended up associating the following information with each node $t$ in the tree-decomposition:
+\begin{enumerate}
+\item A list of its children.
+\item The piece $V_t$ (sometimes called `bag' in the literature), as a set of vertices from $G$.
+\item A table of $2^{w+1}$ values $f_t(U)$, for each $U\subseteq V_t$. 
+  Initially, these values are undefined.
+  They get filled in by the dynamic programming algorithm.
+\end{enumerate}
+
+A lot of my attention was spent on handling sets.
+(We need to iterate over subsets, take set intersections, and test for set equality.)
+I can see two approaches for this.
+\begin{enumerate}
+  \item Store the set $U\subseteq \{0,\ldots,w\}$ as a bit string $b_0\cdots b_w$ where $b_i=1$ if and only if $i\in U$.
+    If you choose this implementation, you are allowed to assume that $w$ is never larger than the word length on your machine.
+    Thus, such a representation can be stored in a single machine word.
+    The set operations now become (hairy but compact) bit fiddling operations.
+    This solution is very fast, and a low level language like C works extremely well for it.
+    Table lookup is just array access, and iteration over subsets is (careful) incrementation.
+  \item You use (or write) a data type for sets.
+    For table look-up you can use an associative array (for instance, by making the data structure hashable).
+      This is a lot slower and requires much more code, but the result is slightly more readable, in particular in a high-level language with neat syntax.
+\end{enumerate}
+
+The output of your program is just a number (the size of the maximum independent set).
+But you are strongly advised to actually compute the elements of a maximum independent set as well.
+(By adding the relevant information to $f_t(U)$ when you traverse the tree decomposition.)
+Otherwise your code will be very difficult to debug.
+
+\newpage
+\section{Treewidth report}
+
+
+by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
+  in your names and the parts marked $[\ldots]$.
+  Remove the sidenotes in your final hand-in.}
+
+
+\subsection{Results}
+
+The following table gives the indpendence number $\alpha(G)$ (the size of a maximum independent set) for each graph:\sidenote{Pick a few (say, 20) of the larger graphs in the data directory to run your code on. Also, visit github.com/freetdi/CFGs for even more instances resulting from control-flow graphs of various C functions (those are typically larger and of very low tree-width, so they should make your algorithms look good.) Pick a few from there (I didn't want to include all of them in the data directory).
+
+  The main reason to stick to named graphs in the data directory is that you can find pretty drawings of them online which should aid debugging. (These graphs are not really optimal for making your algorithm look good, so later versions of this exercise will probably include some more impressive instances.
+}
+
+
+\medskip
+\begin{tabular}{lccc}
+  \toprule
+  Instance name & $n$ & $w$ & $\alpha(G)$   \\
+  \midrule
+  web4 & $5$ & $2$ & $3$ \\ 
+  \ldots\\
+  \bottomrule
+\end{tabular}
+
+
+\subsection{Our implementation}
+
+We implemented sets as $\cdots$.
+The largest $n$ and $w$ for which this implementation worked  in 60 seconds on our
+machine was $n=[\cdots]$ and $k=\cdots$ (the graph called $\cdots$), or $n=\cdots$ and $k=\cdots$ (the graph called $\cdots$).
+
+\end{document}
+ 

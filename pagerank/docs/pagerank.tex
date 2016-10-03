@@ -116,7 +116,7 @@ M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
   simulation.
   That is, construct the transition probability matrix $P$ and
   compute $pP^r$ for some sufficiently high $r$ (read from the command
-  line) and some initial vector $p$ of your choice.
+  line) and some initial row vector $p$ of your choice.
   In fact, we're approximating the dominant left eigenvector, i.e., a
   vector satisfying $pP= p$.
   There are (at least) 3 ways of computing $pP^r$:
@@ -161,8 +161,8 @@ M. Ripeanu and I. Foster and A. Iamnitchi. \emph{Mapping the Gnutella
   columns in $D$ are identical, all columns in $\bf 1$ are identical,
   and $H$ is sparse (so you don't store is as a square matrix of size
   $O(|V|^2)$; just as a list of $O(|E|)$ nonzero values).
-  Oh, and if you really just wrote code to compute the dot product
-  between $p$ and an all-1s vector, this is a good time for a break.
+  Oh, and if you really just wrote code to compute the product
+  between $p$ and an all-1s matrix, this is a good time for a break.
 \item Fill out the report.
 \end{enumerate}
 

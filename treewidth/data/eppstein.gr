@@ -1,0 +1,16 @@
+c David Eppsteins example on the Wikipedia page for Treewidth
+c https://en.wikipedia.org/wiki/Treewidth#/media/File:Tree_decomposition.svg
+p tw 8 13
+1 2
+1 3
+2 3
+2 5
+2 6
+2 7
+3 4
+3 5
+4 5
+5 7
+5 8
+6 7
+7 8

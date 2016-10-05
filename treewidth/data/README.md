@@ -41,14 +41,14 @@ We define the file format .td. As above, c lines are comments and can occur thro
     2 4
  
 
-
+A useful decomposition for experimenting is described in Eppstein.gr and Eppstein.tr.
+This is the graph used in the Wikipedia article for treewidth [4].
 
 
 
 
 
 [1] sagemath.org
-
-[1] TCS-Meiji/treewidth-exact.
-
-[2] pacechallenge.wordpress.com/2016/09/12/here-are-the-results-of-the-1st-pace-challenge/
+[2] TCS-Meiji/treewidth-exact.
+[3] pacechallenge.wordpress.com/2016/09/12/here-are-the-results-of-the-1st-pace-challenge/
+[4] https://en.wikipedia.org/wiki/Treewidth

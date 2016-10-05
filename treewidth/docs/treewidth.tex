@@ -24,6 +24,10 @@ Implement an algorithm for independent set using dynamic programming over a (giv
 The algorithm takes as input an unweighted, undirected graph $G$ and a tree-decomposition $T$ of $G$ with width $w$.
 A detailed explanation of the algorithm can be found in \emph{Tree Decompositions of Graphs}, Section 10.4 of Kleinberg and Tardos, \emph{Algorithms Design}, Addison--Wesley 2005.
 
+The input files come in pairs with extension {\tt .td} and {\tt .gr}, respectively.
+The format is described in {\tt data/README.md}.
+
+
 You need to achieve a running time of $\exp(O(w))\operatorname{poly}(n)$; a straightforward implementation of the pseudo-code in the book will achieve that, as analysed at the end of Section 10.4.
 
 \paragraph{My thoughts about implementation.}
@@ -91,7 +95,7 @@ The following table gives the indpendence number $\alpha(G)$ (the size of a maxi
 
 We implemented sets as $\cdots$.
 The largest $n$ and $w$ for which this implementation worked  in 60 seconds on our
-machine was $n=[\cdots]$ and $k=\cdots$ (the graph called $\cdots$), or $n=\cdots$ and $k=\cdots$ (the graph called $\cdots$).
+machine was $n=[\cdots]$ and $w=\cdots$ (the graph called $\cdots$), or $n=\cdots$ and $w=\cdots$ (the graph called $\cdots$).
 
 \end{document}
  

@@ -32,7 +32,7 @@ You need to achieve a running time of $\exp(O(w))\operatorname{poly}(n)$; a stra
 
 \paragraph{My thoughts about implementation.}
 I parse both $G$ and $T$ as graphs.
-Note that the input representation of $T$ is just an undirected, connected graph without cycles, so we can pick any node of degree 1 as the root $r$ of the tree decomposition.
+Note that the input representation of $T$ is just an undirected, connected graph without cycles, so we can pick any node as the root $r$ of the tree decomposition.
 From $r$, I perform a (very simple) graph traversal that allows me to associate with each node $t$ of $T$ the list of its children (in $T$) and a topological ordering.
 I ended up associating the following information with each node $t$ in the tree-decomposition:
 \begin{enumerate}
@@ -43,16 +43,19 @@ I ended up associating the following information with each node $t$ in the tree-
   They get filled in by the dynamic programming algorithm.
 \end{enumerate}
 
+The graphs called {\tt web$k$} ($k\in\{1,\ldots,4\}$) and {\tt eppstein} are meant to be useful for initial debugging.
+
 A lot of my attention was spent on handling sets.
 (We need to iterate over subsets, take set intersections, and test for set equality.)
 I can see two approaches for this.
 \begin{enumerate}
-  \item Store the set $U\subseteq \{0,\ldots,w\}$ as a bit string $b_0\cdots b_w$ where $b_i=1$ if and only if $i\in U$.
+  \item At node $t$, rename the vertex names so as to identify $V_t$ with $\{0,\ldots, w\}$ and store each subset $U\subseteq \{0,\ldots,w\}$ as a bit string $b_0\cdots b_w$ where $b_i=1$ if and only if $i\in U$.
     If you choose this implementation, you are allowed to assume that $w$ is never larger than the word length on your machine.
     Thus, such a representation can be stored in a single machine word.
     The set operations now become (hairy but compact) bit fiddling operations.
     This solution is very fast, and a low level language like C works extremely well for it.
     Table lookup is just array access, and iteration over subsets is (careful) incrementation.
+    The difficulty here is to keep a cool head about which vertex in $G$ (or in $V_{t_i}$, for that matter) corresponds to which vertex in $V_t$.
   \item You use (or write) a data type for sets.
     For table look-up you can use an associative array (for instance, by making the data structure hashable).
       This is a lot slower and requires much more code, but the result is slightly more readable, in particular in a high-level language with neat syntax.

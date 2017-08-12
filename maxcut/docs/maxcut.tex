@@ -34,8 +34,7 @@ Algorithm~R): Let $A$ be a \emph{random subset} of $V$ constructed by
 flipping a coin $r(v)\in\{0,1\}$ for every vertex $v\in V$ and setting
 $v\in A$ if and only if $r(v)=1$.
 
-\subsection{ Inputs}
-
+\subsection{Inputs}
 The  data directory contains two input instances:
 \begin{description}
 \item[ pw09\_100.9.txt:] A random instance with $|V|=100$ and
@@ -50,16 +49,31 @@ $m$; every following line describes an edge in the format first
 vertex, second vertex, weight.
 All weights are integers, vertices are numbered $1,2,\ldots, n$.
 
+\subsection{Algorithm G}
+Consider the following simple greedy algorithm (call it 
+Algorithm~G): Let all the verticies be outside of $A$ to begin with.
+A vetrex can be flipped, which means that if it's outside of $A$ its moved into
+$A$ and if its inside $A$ its moved out of $A$.
+Pick the first vertex you can find that increases your cut if flipped.
+Flip this vetrex, and continue doing so until no vertex increases the cut
+if flipped, eg you find a local maxima.
+
+\subsection{Algorithm RS}
+Consider the following simple randomized swapping algorithm (call
+it Algorithm~RS): Combine Algorithm R and G by instead of placing
+all vertices outside of $A$ to begin with in G, place the verticies according
+to the output of R. Then proceed with the flipping part of G.
+
 \subsection{ Deliverables}
 
 \begin{enumerate}
-\item Implement algorithm R and run it on the dataset provided in
+\item Implement algorithm R, G and RS and run it on the dataset provided in
   the data directory.
   Use whatever programming language and libraries you want, but make
-  sure that your code is short and crisp; my own solution takes 25
-  lines.
-  Attach a printout to the report or have it checked by your lab
-  assistant.
+  sure that your code is short and crisp; Each of the algorithms should 
+  not be much more than 20 lines. Reading input + scoring should also be
+  small. Making all the code together less than 100 lines is a suitable goal.
+  Attach a printout of the code to the report.
 \item Fill out the report on the next page; you can just use the
   \LaTeX\ code if you want.
 \end{enumerate}
@@ -80,6 +94,11 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
 The running time of algorithm~R is $[\ldots]$\sidenote{Replace
   $[\ldots]$ by a function of $n$ and/or $m$. You can use asymptotic
   notation. This is supposed to be easy.}.
+
+The running time of algorithm~G is $[\ldots]$\sidenote{Replace 
+  $[\ldots]$ by a function of a subset of the parameters ${n, m, w}$.
+  Use asymptotic notation.}.
+
 
 \subsection{Randomness}
 

@@ -117,7 +117,7 @@ Look it up.
 
 To understand what is going on, maybe it helps you to see which nodes
 Alice sent. (In particular, what is the last node she sends before the
-process stops?)
+process stops? Statistically, what is the ``bottleneck'' in the process?)
 
 
 
@@ -134,7 +134,7 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
 For $i\in\{1,2,3\}$, the number of rounds $R_i$ spent until the tree
 is completely marked in process $i$ is given in the following table.
 The table shows the result of $[\cdots]$ repeated
-trails.\footnote{Report your empirical data.
+trails.\footnote{Report your empirical data for $R_i$.	
   Give each value as the mean plus/minus one standard deviation.
   Use whatever best practices for reporting data you may have learned;
   here's a crash course that suffices for our purposes: (i) Calculate mean and standard deviation ($m
@@ -149,9 +149,12 @@ trails.\footnote{Report your empirical data.
   If you've taken too many statistics classes, feel free to go to town
   with graphs and confidence intervals and so forth.}
 
+In the last column, report the expected value of $R_1$ for each $N$, using the formula derived from your theoretical analysis in the following section \footnote{Use more than one term when evaluating the formula, the result will hopefully be (surprisingly) close to the empirical data.}.
+
 \medskip\noindent
 \begin{tabular}{
     S[table-format = 7]
+    S[table-format = 1.1(1)e1]
     S[table-format = 1.1(1)e1]
     S[table-format = 1.1(1)e1]
     S[table-format = 1.1(1)e1]
@@ -162,7 +165,7 @@ trails.\footnote{Report your empirical data.
 % (Or do the table in another tool, export as PDF, and include it.)
 % Or do the whole report in your favourite word processor instead.
 \toprule
-{ $N$ } & { $R_1$ } & {$R_2$} & {$R_3$} \\\midrule
+{ $N$ } & { $R_1$ } & {$R_2$} & {$R_3$} & {$\mathbf E[R_1]$}\\\midrule
 3 & 2.6\pm 0.9 \\
 7 & \\
 15 & \\
@@ -179,8 +182,7 @@ $\vdots$ \\
 
 \subsection{Analysis}
 
-Our experimental data indicates that $\mathbf E [R_1]$ is [$\ldots$],
-while $\mathbf E[R_2]$ [$\cdots$], and $\mathbf E[R_3]$
+Our experimental data indicates that $\mathbf E [R_1]$ is [$\ldots$]. Optional: $\mathbf E[R_2]$ [$\cdots$], and $\mathbf E[R_3]$
 [$\cdots$].\footnote{For each of the tree processes, try to express
   the observed behaviour of $R_i$ using standard terminology from the
   analys of algorithms.
@@ -192,17 +194,16 @@ Theoretically, the behaviour of $R_1$ can be explained as follows: [$\cdots$] \f
   is the difficult part.
   You need to write a few lines that explain the random process
   underlying $R_1$ and derive an expression for $\mathbf E[R_1]$.
-  (Hopefully it's the same as your empirical analysis!)
-  Once you recognize what's going on, this should be easy; it involves
-  no complicated calculations.
 
   \emph{Hint:} If you're stuck at $R_1$, do the following experiment
   as a warmup.
   Process $0$ is like process $1$, except that Bob doesn't use his
   marking rules: the only nodes that get marked are those sent by
   Alice. Implement this (it's easy) and analyse the behaviour both
-  theoretically and practically. 
+  theoretically and practically.  
 
+  \emph{Hint 2:} Still stuck at $R_1$? Draw sketches of the tree in the beginning, the middle and the end of the process. We're interested in the ending phase, can you make any assumptions to simplify the problem? 
+   
   \emph{Optional:} Explain the
   behaviours of $R_2$ and $R_3$ as well.
   The behaviour of $R_2$ is quite a bit harder; while $R_3$ is just

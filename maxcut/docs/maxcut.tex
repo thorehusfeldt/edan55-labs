@@ -49,25 +49,25 @@ $m$; every following line describes an edge in the format first
 vertex, second vertex, weight.
 All weights are integers, vertices are numbered $1,2,\ldots, n$.
 
-\subsection{Algorithm G}
-Consider the following simple greedy algorithm (call it 
-Algorithm~G): Let all the verticies be outside of $A$ to begin with.
-A vetrex can be flipped, which means that if it's outside of $A$ its moved into
+\subsection{Algorithm S}
+Consider the following simple greedy swapping algorithm (call it 
+Algorithm~S): Let all the verticies be outside of $A$ to begin with.
+A vetrex can be swapped, which means that if it's outside of $A$ its moved into
 $A$ and if its inside $A$ its moved out of $A$.
-Pick the first vertex you can find that increases your cut if flipped.
-Flip this vetrex, and continue doing so until no vertex increases the cut
-if flipped, eg you find a local maxima.
+Pick the first vertex you can find that increases your cut if swapped.
+Swap this vetrex, and continue doing so until no vertex increases the cut
+if swapped, eg you find a local maxima.
 
 \subsection{Algorithm RS}
 Consider the following simple randomized swapping algorithm (call
-it Algorithm~RS): Combine Algorithm R and G by instead of placing
-all vertices outside of $A$ to begin with in G, place the verticies according
-to the output of R. Then proceed with the flipping part of G.
+it Algorithm~RS): Combine Algorithm R and S by instead of placing
+all vertices outside of $A$ to begin with in S, place the verticies according
+to the output of R. Then proceed with the swapping part of S.
 
 \subsection{ Deliverables}
 
 \begin{enumerate}
-\item Implement algorithm R, G and RS and run it on the dataset provided in
+\item Implement algorithm R, S and RS and run it on the dataset provided in
   the data directory.
   Use whatever programming language and libraries you want, but make
   sure that your code is short and crisp; Each of the algorithms should 
@@ -91,14 +91,12 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
 
 \subsection{Running time}
 
-The running time of algorithm~R is $[\ldots]$\sidenote{Replace
-  $[\ldots]$ by a function of $n$ and/or $m$. You can use asymptotic
-  notation. This is supposed to be easy.}.
-
-The running time of algorithm~G is $[\ldots]$\sidenote{Replace 
-  $[\ldots]$ by a function of a subset of the parameters ${n, m, w}$.
-  Use asymptotic notation.}.
-
+\begin{tabular}{ c c c }
+    Algorithm~R & Algorithm~S & Algorithm~RS \\ 
+    $[\ldots]$ & $[\ldots]$ & $[\ldots]$ 
+\end{tabular}\sidenote{Replace each
+  $[\ldots]$ by a function of a subset of the parameters $\{n, m, W\}$, where $W = \sum_{e \in E}w(e)$.
+  Use asymptotic notation.}
 
 \subsection{Randomness}
 
@@ -113,9 +111,22 @@ Algorithm R uses $[\ldots]$\sidenote{Replace
 \begin{enumerate}
 \item
 For the input file  pw09\_100.9.txt with $t=100$ runs, we found
-an average cutsize of $C=[\ldots]$, roughly $[\ldots]$\% of the optimum
-$\operatorname{OPT} = 13658$.
-The distribution of cutsizes looks as follows:\sidenote{Display your
+for each algorithm, the average cutsize $Avg(C)$ and the maximum cutsize $Max(C)$:
+
+\begin{tabular}{ l c c }
+    Algorithm & $Avg(C)$ & $Max(C)$ \\ 
+    R & $[\ldots]$ & $[\ldots]$ \\
+    S & $[\ldots]$ & $[\ldots]$ \\
+    RS & $[\ldots]$ & $[\ldots]$
+\end{tabular}\sidenote{Replace each $[\ldots]$
+with the values obtained by running your experiments.}
+\medskip
+
+The optimum was given to us as $\operatorname{OPT} = 13658$.
+
+\medskip
+
+The distribution of cutsizes for Algorithm~R looks as follows:\sidenote{Display your
   cutsizes as a histogram. Use whatever software you like to produce
   the image; the placeholder image on the left is constructed in the
   \LaTeX\ source.}
@@ -241,14 +252,19 @@ The distribution of cutsizes looks as follows:\sidenote{Display your
 \end{axis}
 \end{tikzpicture}
 
+The distribution of cutsizes for Algorithm~RS looks as follows: $[\ldots]$
+\sidenote{Display a plot similar to the histogram for Algorithm~R, but instead for Algorithm~RS.}
+
 \item
 For the input file matching\_1000.txt
 $[\ldots]$\sidenote{Perform the same analysis for 
     matching\_1000.txt. This involves thinking to determine OPT.}
 \end{enumerate}
+
+
 \paragraph{Analysis of performance guarantee}
 
-Clearly, Algorithm R performs quite badly on input 
+Clearly, Algorithm~R performs quite badly on input 
   matching\_1000.txt.
 We will show that it can perform \emph{no worse} than that, i.e., we
 will establish that in expectation, the cutsize $C$ satisfies $C \geq
@@ -279,59 +295,44 @@ $[\ldots]$.\sidenote{Fill in the missing blanks in this paragraph.
   Your calculations and arguments need to include phrases like
   ``because BLA and BLA are independent'' or ``disjoint,'' and ``by
   linearity of expectation'' and ``because the weights are positive.''
-
 }
 
+\bigskip
+Algorithms~S and RS perform very well on input matching\_1000.txt. In fact
+both algorithms always find the optimum. The reason for this is that $[\ldots]$
+\sidenote{Explain why the optimum is always found.}.
 
-\newpage
-\section{Optional: Derandomising Algorithm R}
-
-\subsection{Algorithm L} 
-
-
-We now reduce the number of random bits used by the algorithm to $\log
-n$ using a simple \emph{pseudorandom generator}.
-
-
-Let $k=\lceil\log (n+1)\rceil$ and flip $k$ coins $b_1,\ldots, b_k$.
-There are $2^k -1 \geq n$ different ways of choosing a nonempty subset
-$S\subseteq [k]$ of the coins.
-Each of these ways defines a random bit $r_S =\bigoplus_{i\in S} b_i$.
-(Here, $\oplus$ denotes exclusive or.)
-This gives a total of $n$ random bits.
-These random bits are not as high-quality as the original $k$ bits,
-but they retain the crucial property of \emph{pairwise independence}:
-If $S\neq T$ then
-\[ \Pr(r_S\neq r_T) = [\ldots],.\]
-
-Extend Algorithm~R using this idea; call the resulting
-algorithm~L (for logarithmic randomness).
-
-\subsection{Algorithm Z}
-
-For our final trick, we let the random bits disappear completely:
-since Algorithm~L uses only $k$ bits of randomness, we can iterate
-over \emph{all} coin flips---there are only $2^k$, which is polynomial
-(in fact, linear) in $n$.
-Extend algorithm~L using this idea; call the resulting algorithm~Z
-(for zero randomness).
-The running time of Z is $O([\ldots])$.
-
-\newpage
-\section{Perspective}
-
-This lab establishes minimal skills in algorithms implementation,
-probabilistic analysis of algorithms (independence, linearity of
-expectation, and in particular the trick of computing an expectation
-using indicator random variables), and approximation guarantees (in
-particular, finding upper and lower bounds by exhibiting a concrete
-``bad instance'' and a comparison to a hypothetical optimum,
-respectively).
-The histogram aims to establish the intuition that measure is
-concentrated around its expectation.
+However Algorithm~RS does not always find the optimum even for all bipartite graphs. 
+An example of this scenario is the graph $G$,
+\begin{tikzpicture}[every node/.style={draw,circle}]
+  \node (1) at (0,1)  { 1 };
+  \node (2) at (1,1)  { 2 };
+  \node (3) at (0,0) { 3 };
+  \node (4) at (1,0) { 4 };
+  \draw[-] (1) edge (2);
+  \draw[-] (2) edge (3);
+  \draw[-] (3) edge (4);
+\end{tikzpicture}
 
 \bigskip
 
+Where the weight of the edges are
+
+\medskip
+
+\begin{tabular} {c c c}
+    u & v & weight \\
+    1 & 2 & $[\ldots]$ \\
+    2 & 3 & $[\ldots]$ \\
+    3 & 4 & $[\ldots]$
+\end{tabular}\sidenote{Fill in weights of the edges in the graph such 
+that the graph has a local maxima less than the global maxima.}
+\medskip
+
+Here if nodes $[\ldots]$ are inside $A$, Algorithm~RS gets stuck in a local maxima of size $[\ldots]$. The global maxima has size $[\ldots]$, with nodes $1$ and $3$ inside $A$.\sidenote{Fill in the blanks so the sentence makes sense.}
+
+\newpage
+\section{Perspective}
 To establish that Maxcut is NP-hard one reduces from NAE-Sat, a
 reduction that can be found in many places\sidenote{C. Moore and
 S. Mertens, \emph{The Nature of Computation}, Oxford University Press,
@@ -362,9 +363,5 @@ H\aa{}stad has shown that no algorithm can approximate the maxcut
 better than $16/17\sim 0.941176$ unless P equals NP. Khot has shown
 that the Goemans--Williamson bound is essentially optimal under the
 \emph{Unique Games Conjecture}.
-
-Algorithm L can also be viewed as an application of \emph{pairwise
-  independent hash functions}.
-
 
 \end{document}

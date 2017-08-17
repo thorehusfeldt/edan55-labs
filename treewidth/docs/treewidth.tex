@@ -17,7 +17,7 @@
 
 Implement an algorithm for independent set using dynamic programming over a (given) tree-decomposition.
 
-\emph{2016 is the first time we try this exercise. Problems are to be expected.}
+\emph{2017 is the second time we try this exercise. Not all problems from last year are resolved.}
 
 \subsection{The algorithm}
 
@@ -78,10 +78,7 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
 
 \subsection{Results}
 
-The following table gives the indpendence number $\alpha(G)$ (the size of a maximum independent set) for each graph:\sidenote{Pick a few (say, 20) of the larger graphs in the data directory to run your code on. Also, visit github.com/freetdi/CFGs for even more instances resulting from control-flow graphs of various C functions (those are typically larger and of very low tree-width, so they should make your algorithms look good.) Pick a few from there (I didn't want to include all of them in the data directory).
-
-  The main reason to stick to named graphs in the data directory is that you can find pretty drawings of them online which should aid debugging. (These graphs are not really optimal for making your algorithm look good, so later versions of this exercise will probably include some more impressive instances.
-}
+The following table gives the indpendence number $\alpha(G)$ (the size of a maximum independent set) for each graph:
 
 
 \medskip
@@ -90,6 +87,28 @@ The following table gives the indpendence number $\alpha(G)$ (the size of a maxi
   Instance name & $n$ & $w$ & $\alpha(G)$   \\
   \midrule
   web4 & $5$ & $2$ & $3$ \\ 
+  WorldMap & $166$ & $5$ & $78$ \\
+  FibonacciTree\_10 & $143$ & $1$ & $72$ \\
+  StarGraph\_100 & $101$ & $1$ & $100$ \\
+  TutteGraph & $46$ & $5$ & $19$ \\
+DorogovtsevGoltsevMendesGraph & $3282$ & $2$ & $2187$ \\
+HanoiTowerGraph\_4\_3 & $64$ & $13$ & $16$ \\
+TaylorTwographDescendantSRG\_3 & \ldots \\
+CirculantGraph\_20\_5 & \ldots\\
+AhrensSzekeresGeneralizedQuadrangleGraph\_3 & \ldots \\
+DesarguesGraph & \ldots\\
+  FranklinGraph & \ldots\\
+FolkmanGraph & \ldots\\
+  GoldnerHararyGraph &\ldots\\
+FriendshipGraph\_10 &\ldots\\
+  HerschelGraph &\ldots\\
+HoltGraph &\ldots\\
+  Klein7RegularGraph &\ldots\\ 
+McGeeGraph & \ldots\\
+TaylorTwographSRG\_3 & \ldots\\
+WellsGraph & \ldots\\
+  SierpinskiGasketGraph\_3 & \ldots\\
+
   \ldots\\
   \bottomrule
 \end{tabular}

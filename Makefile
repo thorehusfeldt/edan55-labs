@@ -4,11 +4,11 @@ sources_docs := $(shell find -name "*.tex")
 dir_docs := "docs"
 
 docs: ${sources_docs}
-	# Create dir_docs if missing.
-	[ -d ${dir_docs} ] || mkdir docs
-	# Use symbolic links to avoid 'deleted: X.pdf' message in git, still
-	# 'modified' though.
-	for d in $(DIRS); do (cd $$d/docs; $(MAKE); ln -rs *.pdf ../../docs); done
+	@# Create dir_docs if missing.
+	@[ -d ${dir_docs} ] || mkdir docs
+	@# Use symbolic links to avoid 'deleted: X.pdf' message in git, still
+	@# 'modified' though.
+	@for d in $(DIRS); do (cd $$d/docs; $(MAKE); ln -rs *.pdf ../../docs); done
 
 clean:
 	git clean -xfd

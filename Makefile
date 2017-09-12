@@ -1,8 +1,23 @@
 DIRS    = collatz81 independentset 	maxcut 	pagerank	rainbow	marking treewidth
 
-docs:
-	mkdir docs
-	for d in $(DIRS); do (cd $$d/docs; $(MAKE); mv *.pdf ../../docs); done
+sources_docs := $(shell find -name "*.tex")
+dir_docs := "docs"
+
+docs: ${sources_docs}
+	# Create dir_docs if missing.
+	[ -d ${dir_docs} ] || mkdir docs
+	# Use symbolic links to avoid 'deleted: X.pdf' message in git, still
+	# 'modified' though.
+	for d in $(DIRS); do (cd $$d/docs; $(MAKE); ln -s *.pdf ../../docs); done
 
 clean:
 	git clean -xfd
+
+stage_tracked_pdfs:
+	@# Iterate over all tracked+modified pdf and force add them."
+	@for modified_file in $(shell git ls-files . -m); do\
+		case "$$modified_file" in\
+			*.pdf)\
+				git add -f "$$modified_file";;\
+		esac;\
+	done

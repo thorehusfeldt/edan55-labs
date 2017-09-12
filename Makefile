@@ -21,3 +21,7 @@ stage_tracked_pdfs:
 				git add -f "$$modified_file";;\
 		esac;\
 	done
+
+discard_tracked_pdfs:
+	@# Discard changes to all tracked pdfs, will always appear as changed?
+	@git checkout -- "*.pdf"

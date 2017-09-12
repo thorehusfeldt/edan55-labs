@@ -8,7 +8,7 @@ docs: ${sources_docs}
 	[ -d ${dir_docs} ] || mkdir docs
 	# Use symbolic links to avoid 'deleted: X.pdf' message in git, still
 	# 'modified' though.
-	for d in $(DIRS); do (cd $$d/docs; $(MAKE); ln -s *.pdf ../../docs); done
+	for d in $(DIRS); do (cd $$d/docs; $(MAKE); ln -rs *.pdf ../../docs); done
 
 clean:
 	git clean -xfd

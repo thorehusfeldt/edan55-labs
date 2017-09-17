@@ -246,7 +246,42 @@ file & $|V|$ & $\alpha(G)$\\
 \end{tabular}
 \end{marginfigure}
 
+\subsection{Algorithm $R_1$}
+Add the following line to algorithm $R_0$ after its first line
+checking for emptiness, and call the resulting algorithm $R_1$
+(replacing the recursive calls to $R_0$ by $R_1$):
 
+If $G$ has a vertex $v$ of degree $1$ return $1+R_1(G[V-N[v]])$.
+
+Before you write any code -- draw (by hand) pictures such as those
+above to illustrate what happens with your graph when you run
+algorithm $R_1$ on it. Use the pictures when you implement the
+algorithm, and when you argue the correctness of it, i.e., when you
+motivate why it always computes $\alpha(G)$. You are supposed to
+bring your pictures and show them to your lab assistant.
+
+%Algorithm $R_1$ is just a small modification to Algorithm $R_0$. 
+
+%The difference is just to also inspect nodes $u$ with only one neigbour. 
+%if there exists such a node $u$, just return $1 + R_1(G[V-N[u]])$.
+
+\subsection{Algorithm $R_2$}
+Add the following line to algorithm $R_1$ after its first line
+checking for emptiness, and call the resulting algorithm $R_2$
+(replacing the recursive calls to $R_1$ by $R_2$):
+
+If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
+$uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
+the graph with edges to every neighbor of $u$ and $w$, except $v$,
+and return $1+R_2(G[V-N[v]+z])$.
+
+If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
+proceed just as in algorithm $R_1$.
+
+Draw pictures such as those above to illustrate algorithm $R_2$, and
+use the pictures both when you implement it, and when you argue the
+correctness of it, i.e., motivate why it always computes
+$\alpha(G)$.
 
 \subsection{Deliverables}
 
@@ -268,49 +303,16 @@ file & $|V|$ & $\alpha(G)$\\
   can pay attention to the problem of efficiently representing a graph
   through the recursion so that it is easy to remove (and add, see
   below) vertices to it by temporarily modifying the graph at hand.
-   
-  Attach a printout to the report or have it checked by your lab
-  assistant.
 
-\item Add the following line to algorithm $R_0$ after its first line
- checking for emptiness, and call the resulting algorithm $R_1$
- (replacing the recursive calls to $R_0$ by $R_1$):
- 
- If $G$ has a vertex $v$ of degree $1$ return $1+R_1(G[V-N[v]])$.
- 
- Before you write any code -- draw (by hand) pictures such as those
- above to illustrate what happens with your graph when you run
- algorithm $R_1$ on it. Use the pictures when you implement the
- algorithm, and when you argue the correctness of it, i.e., when you
- motivate why it always computes $\alpha(G)$. You are supposed to
- bring your pictures and show them to your lab assistant.
- 
- After you have implemented algorithm $R_1$, run it on the instances
+\item After you have implemented algorithm $R_1$, run it on the instances
  data/g30.in, data/g40.in, $\ldots$, data/g100.in.
 
-  Count the number of recursive calls of R1 for each instance and plot the
+  Count the number of recursive calls of $R_1$ for each instance and plot the
   logarithm of that number vs the instance vertex size.
   
   What is the time complexity dependence on $n$?
 
-\item Add the following line to algorithm $R_1$ after its first line
-  checking for emptiness, and call the resulting algorithm $R_2$
-  (replacing the recursive calls to $R_1$ by $R_2$):
- 
-  If $G$ has a vertex $v$ with exactly two neighbors $u,w$, then if
-  $uw\in E$ return $1+R_2(G[V-N[v]])$, else add a new vertex $z$ to
-  the graph with edges to every neighbor of $u$ and $w$, except $v$,
-  and return $1+R_2(G[V-N[v]+z])$.
-
-  If $G$ doesn't have a vertex $v$ with exactly two neighbors, then we
-  proceed just as in algorithm $R_1$.
- 
-  Draw pictures such as those above to illustrate algorithm $R_2$, and
-  use the pictures both when you implement it, and when you argue the
-  correctness of it, i.e., motivate why it always computes
-  $\alpha(G)$.
- 
-  Run algorithm $R_2$ on the instances data/g30.in, data/g40.in,
+\item Run algorithm $R_2$ on the instances data/g30.in, data/g40.in,
   $\ldots$, data/g120.in.
 
   Count the number of recursive calls of $R_2$ for each instance and plot the
@@ -321,6 +323,113 @@ file & $|V|$ & $\alpha(G)$\\
 \item Fill out the report on the next page; you can just use the
   \LaTeX\ code if you want.
 \end{enumerate}
+
+\section{Optional}
+Solve independent set using bitmasks. This is a good exercise to prepare for the last lab Tree Width.
+
+\subsection{Algoritm $MM$}
+We will use a trick called \emph{meet in the middle}, which can be used on several NP-complete problems.
+
+\bigskip
+
+Meet in the middle is similar to divide and conquer. We split the problem into two halves, solve them seperately and then merge the results.
+However, we can't continue to divide recursively, because the subproblems that are solved in each half are not symmetric, 
+and also differ slightly to the original problem.
+
+\bigskip
+
+
+For independent set, we divide the input graph $G$ in two halves $A$ and $B$.
+We define a function $f: B' \rightarrow int$, where $B'$ is a subset of $B$. 
+$f(B')$ is the size of the largest subset of $B'$ that is independent.
+
+\bigskip
+
+The subsets $A'$ of $A$ that are independent are saved together with their size.
+
+Then we iterate through all the saved subsets $A'$ and compute 
+the maximal independent set of $G$ where exactly the nodes $A'$ from $A$ are used, by querying $B$ in the following way.
+If we want to use exactly the nodes $A'$ from $A$ we can't use any of the neighbors of $A'$ in $B$. 
+We can therefor ask $f$ of the maximal independent set of the nodes $B' = B - N[A']$, see figure \ref{fig:MM}. 
+The maximal size of an independent set $A' \cup B'$ is then $f(B') + |A'|$.
+The maximal independent set of $G$ is $max_{A'}(f(B') + A')$ over all $A'$,
+since this search is exhaustive over $A$.
+
+  \begin{marginfigure}
+  \label{fig:MM}
+\begin{tikzpicture}
+\node (a) at (0,0){
+      \begin{tikzpicture}
+          \node[mis node] (1) at (0, 0) {\ensuremath{\tiny A0}};
+          \node[remaining node] (2) at (0.7, -0.5) {\ensuremath{\tiny A1}};
+          \node[remaining node] (3) at (0, 1) {\ensuremath{\tiny A2}};
+          \node[mis node] (4) at (0.7, 1.5) {\ensuremath{\tiny A3}};
+          \node[remaining node] (5) at (1.8, -0.5) {\ensuremath{\tiny B0}};
+          \node[remaining node] (6) at (2.3, 0) {\ensuremath{\tiny B1}};
+          \node[remaining node] (7) at (2.3, 1) {\ensuremath{\tiny B2}};
+          \node[remaining node] (8) at (1.8, 1.5) {\ensuremath{\tiny B3}};
+
+      \path[remaining edge]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (6)
+          edge node {} (7)
+      (2) edge node {} (5)
+      (4) edge node {} (8)
+      (6) edge node {} (7)
+      (7) edge node {} (8);
+    \end{tikzpicture}};
+\node (b) at (0,-4) {
+     \begin{tikzpicture}
+          \node[mis node] (1) at (0, 0) {\ensuremath{\tiny A0}};
+          \node[remaining node] (2) at (0.7, -0.5) {\ensuremath{\tiny A1}};
+          \node[remaining node] (3) at (0, 1) {\ensuremath{\tiny A2}};
+          \node[mis node] (4) at (0.7, 1.5) {\ensuremath{\tiny A3}};
+          \node[remaining node] (5) at (1.8, -0.5) {\ensuremath{\tiny B0}};
+          \node[removed node] (6) at (2.3, 0) {\ensuremath{\tiny B1}};
+          \node[removed node] (7) at (2.3, 1) {\ensuremath{\tiny B2}};
+          \node[removed node] (8) at (1.8, 1.5) {\ensuremath{\tiny B3}};
+
+      \path[remaining edge]
+      (1) edge node {} (2)
+          edge node {} (3)
+          edge node {} (6)
+          edge node {} (7)
+      (2) edge node {} (5)
+      (4) edge node {} (8)
+      (6) edge node {} (7)
+      (7) edge node {} (8);
+
+    \end{tikzpicture}};
+    \draw[->, very thick] (a) -- (b);
+ \end{tikzpicture}
+    \caption{A graph where $A'$ is chosen as nodes $\{ A0, A3 \}$. Now $B' = B - N[A'] = \{ B0\} $, since $\{ B1, B2, B3 \} $ all are connected to $A'$.}
+  \end{marginfigure}
+\bigskip
+
+This can be efficiently implemented using bitstrings and memoization over all the $2^{|B|}$ inputs to $f$. 
+$f$ can either be implemented recursively, or by just filling in a table.
+
+\bigskip
+
+Note that $f$ can be defined recursively in the following way: 
+$f(B') = |B'| \texttt{ if }B' \texttt{ is independent, else } max_{b \in B'}f(B' - b)$.
+
+\bigskip
+
+Given that $|B| < 32$, we can encode a subset of $B$ as a 32-bit integer.
+We label all the nodes in $B$ as $0, 1, 2, \ldots, |B| - 1$. Then to compute the bitstring (integer) of a subset,
+we sum the powers of two of the labels.
+
+For example, if we want to find the bitstring of the subset containing nodes with labels $\{ 0, 3, 4, 6 \} $ we compute the bitstring as $2^0 + 2^3 + 2^4 + 2^6 = 89$.
+In most programming languages we can use $1\ll x$ to compute $2^x$.
+
+\subsection{Discussion topics for algorithm MM}
+\begin{itemize}
+    \item What is the running time?
+    \item Can you find a graph where MM is faster than R1?
+    \item Implementation complexity compared to R2.
+\end{itemize}
 
 \newpage
 
@@ -441,16 +550,6 @@ $[\ldots],[\ldots],$ and $[\ldots]$, respectively.\sidenote{Replace
     real root to the characteristic polynomial $x^k-\sum_{i=1}^k
     a_ix^{k-i}$}.}. \newpage
 
-\section{Optional}
-Add more ``algorithmic intelligence'' to the algorithm $R_2$ in order to tackle the instance in data/g130.in.
-Try to make it run in less than 10,000,000 recursive calls. 
-
-Suggestions for possible speed-ups:
-\begin{itemize}
-\item Is there some clever (branching) rule for vertices of degree 3?
-\item Can we use the information of the largest found independent set so far, to reduce further computation time?
-\item What if the graph gets disconnected?
-\end{itemize}
 
 \newpage
 \section{ Perspective}

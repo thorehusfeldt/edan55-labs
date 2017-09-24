@@ -17,6 +17,8 @@
 \maketitle
 \footnotetext{rev. \GITAbrHash}
 
+\emph{2017 is the first year this lab is given. Some errors in the instructions are expected.}
+
 \section{FedUPS vs PostNHL}
 
 You are having a hard time choosing between the two major post companies in your city.
@@ -52,8 +54,11 @@ $t_{uv}$ is an integer describing the time in minutes it takes to travel along t
 $p_{uv}$ describes the probability of choosing to travel from $u$ to $v$ if you are at intersection $u$, 
 while $p_{vu}$ is the probability of traveling from $v$ to $u$ if you are located at intersection $v$.
 
+\medskip
 
-It is guarnteed that for each intersection the total probability of leaving that city is 1, 
+All probablities $p_{uv}$ where $u \neq H$ satisfy $0 < p_{uv} \leq 1$.
+
+It is guarnteed that for each intersection the total probability of leaving that city is $1.0$,
 except for the the intersection $H$, where the driver stops and delivers your package, hence here the probablity of leaving is 0.
 
 \section*{Output}
@@ -108,5 +113,50 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
   in your names and the parts marked $[\ldots]$.
   Remove the sidenotes in your final hand-in.}
 
+\subsection{Running time}
+
+\begin{tabular}{ c c }
+    Monte-Carlo & Markov \\ 
+    $[\ldots]$ & $[\ldots]$  
+\end{tabular}\sidenote{Replace each
+  $[\ldots]$ by a function of a subset of the parameters $\{N, M, E\}$, where $E$ is the estimated delivery time.
+  Use asymptotic notation.}
+
+
+
+
+\subsection{Solution quality Toy}
+
+With $10\,000$ runs algorithm Monte-Carlo, which takes $[\ldots]$ seconds to execute, is within $[\ldots]$ digits\sidenote{Here we are after the relative accuracy, which we define as the number of leading zeroes in the expression $\frac{E[G] - Avg(MonteCarlo(G))}{E[G]}$, where $E[G]$ is the estimated delivery time.} of accuracy on the input toy.txt.\sidenote{Take the minimum of FedUPS and PostNHL compared to the output file.}
+
+
+\subsection{Solution quality Small}
+
+$[\ldots]$ runs, and $[\ldots]$ seconds are needed for the Monte-Carlo algorithm on input small.txt to be within $3$ digits of accuracy for 10 consecutive runs.\sidenote{
+    You should compare the accuracy versus the result of your Markov Algorithm, which solves the problem exactly. Both FedUPS and PostNHL needs to be stable.
+}
+
+\subsection{Results of the Markov Algorithm}
+
+\begin{tabular}{c c c}
+    input graph & $E[\text{FedUPS}]$ & $E[\text{PostNHL}]$ \\
+    random1.txt & $[\ldots]$ & $[\ldots]$ \\
+    random2.txt & $[\ldots]$ & $[\ldots]$ \\
+    random3.txt & $[\ldots]$ & $[\ldots]$ \\
+    strange1.txt & $[\ldots]$ & $[\ldots]$ \\
+\end{tabular}\sidenote{If you encounter problems with strange1.txt, draw the graph.}
+
+\subsection{Stranger Things}
+$[\ldots]$ happens when the original versions of the algoritms were run on the graph strange.txt. This is because the graph is $[\ldots]$. We fixed this by ${\ldots}$.
+
+\subsection{Stranger Things 2 - Pre Realease}
+$[\ldots]$
+
+
+\subsection{Real real world problems}
+
+
+
+\section{Perspective}
 
 \end{document}

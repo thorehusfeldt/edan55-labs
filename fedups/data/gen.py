@@ -11,9 +11,6 @@ def distr(deg):
     rnd.shuffle(l)
     return [i/1000 for i in l]
 
-distr(1)
-distr(2)
-distr(3)
 N = 300
 M = rnd.randint(N-1, min(20*N, N*(N-1)//2))
 edgs = [(i, rnd.randint(0, i-1)) for i in range(1, N)]
@@ -57,18 +54,13 @@ for i in range(1, N):
     for k, v in enumerate(neigh):
         p[i][v] = dist[k]
 
-P = rnd.randint(1, N)
-F = rnd.randint(1, N)
+P = rnd.randint(1, N-1)
+F = rnd.randint(1, N-1)
 while F == P:
-    F = rnd.randint(1, N)
+    F = rnd.randint(1, N-1)
 print(N, M, 0, F, P)
 for u in range(N):
     for v in range(u+1, N):
         if not A[u][v] == 0:
             print(u, v, rnd.randint(1, 100), p[u][v], p[v][u])
-
-    
-
-
-
 

@@ -59,10 +59,12 @@ while $p_{vu}$ is the probability of traveling from $v$ to $u$ if you are locate
 All probablities $p_{uv}$ where $u \neq H$ satisfy $0 < p_{uv} \leq 1$.
 
 It is guarnteed that for each intersection the total probability of leaving that city is $1.0$,
-except for the the intersection $H$, where the driver stops and delivers your package, hence here the probablity of leaving is 0.
+except for the the intersection $H$, where the driver stops and delivers your package, 
+hence here the probablity of leaving is $0$.
 
 \section*{Output}
 Output the estimated delivery time in minutes for each post company.
+If your home is not reachable by a postoffice, output ``We tried to deliver your package, but you were not home''.
 
 
 \section*{Algorithm Monte-Carlo}
@@ -77,7 +79,7 @@ We can view this problem as a markov chain.
 Let $x_u$ denote the estimated time left until the driver reaches node $H$ from node $u$.
 $x_u$ can be expressed as a sum over all it's neighbours.
 
-$x_u = \sum_{uv \in E} (p_{uv}\cdot (x_v + t_{uv}))$
+$x_u = \sum_{uv \in E}{p_{uv}\cdot (x_v + t_{uv})}$
 
 This can be written as a system of equations
 
@@ -127,12 +129,14 @@ by Alice Cooper and Bob Marley\sidenote{Complete the report by filling
 
 \subsection{Solution quality Toy}
 
-With $10\,000$ runs algorithm Monte-Carlo, which takes $[\ldots]$ seconds to execute, is within $[\ldots]$ digits\sidenote{Here we are after the relative accuracy, which we define as the number of leading zeroes in the expression $\frac{E[G] - Avg(MonteCarlo(G))}{E[G]}$, where $E[G]$ is the estimated delivery time.} of accuracy on the input toy.txt.\sidenote{Take the minimum of FedUPS and PostNHL compared to the output file.}
+With $10\,000$ runs algorithm Monte-Carlo, which takes $[\ldots]$ seconds to execute, is within $[\ldots]$ digits
+\sidenote{Here we are after the relative accuracy, which we define as the number of leading zeroes in the expression $\frac{E[G] - Avg(MonteCarlo(G))}{E[G]}$, where $E[G]$ is the estimated delivery time.} 
+of accuracy on the input toy.in.\sidenote{Take the minimum of FedUPS and PostNHL compared to the output file.}
 
 
 \subsection{Solution quality Small}
 
-$[\ldots]$ runs, and $[\ldots]$ seconds are needed for the Monte-Carlo algorithm on input small.txt to be within $3$ digits of accuracy for 10 consecutive runs.\sidenote{
+$[\ldots]$ runs, and $[\ldots]$ seconds are needed for the Monte-Carlo algorithm on input small.in to be within $3$ digits of accuracy for 10 consecutive runs.\sidenote{
     You should compare the accuracy versus the result of your Markov Algorithm, which solves the problem exactly. Both FedUPS and PostNHL needs to be stable.
 }
 
@@ -140,23 +144,25 @@ $[\ldots]$ runs, and $[\ldots]$ seconds are needed for the Monte-Carlo algorithm
 
 \begin{tabular}{c c c}
     input graph & $E[\text{FedUPS}]$ & $E[\text{PostNHL}]$ \\
-    random1.txt & $[\ldots]$ & $[\ldots]$ \\
-    random2.txt & $[\ldots]$ & $[\ldots]$ \\
-    random3.txt & $[\ldots]$ & $[\ldots]$ \\
-    strange1.txt & $[\ldots]$ & $[\ldots]$ \\
-\end{tabular}\sidenote{If you encounter problems with strange1.txt, draw the graph.}
+    random1.in & $[\ldots]$ & $[\ldots]$ \\
+    random2.in & $[\ldots]$ & $[\ldots]$ \\
+    random3.in & $[\ldots]$ & $[\ldots]$ \\
+    strange1.in & $[\ldots]$ & $[\ldots]$ \\
+    strange2.in & $[\ldots]$ & $[\ldots]$ \\
+\end{tabular}\sidenote{If you encounter problems with strange1.in or strange2.in draw the graphs. Remember what you did to solve them for the next sections.}
 
 \subsection{Stranger Things}
-$[\ldots]$ happens when the original versions of the algoritms were run on the graph strange.txt. This is because the graph is $[\ldots]$. We fixed this by ${\ldots}$.
+$[\ldots]$ happens when the original versions of the algoritms were run on the graph strange1.in. 
+This is because node $F$ and $P$ are $[\ldots]$ from node $H$. We fixed this by ${\ldots}$.
 
 \subsection{Stranger Things 2 - Pre Realease}
-$[\ldots]$
+Out of the original versions of the algorithms, only algorithm $[\ldots]$ works on the graph strange2.in. 
+The reason algorithm $[\ldots]$ does not work is that the graph is $[\ldots]$, which results in $[\ldots]$.
 
 
 \subsection{Real real world problems}
-
-
-
-\section{Perspective}
+The problem FedUPS vs PostNHL is a very constructed problem. 
+This is used as an exercise in identifying that a problem can be modeled as a Markov Chain.
+However in the real world examples of problems that include markov chains include $[\ldots]$ and $[\ldots]$.
 
 \end{document}
